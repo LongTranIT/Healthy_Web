@@ -1,0 +1,29 @@
+.wrapper{
+	width: 100%;
+	padding: 80px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: var(--font-size-20);
+	color: var();
+	font-weight: var(--font-weight-300);
+}
+
+.left-content{
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.middle-content{
+	opacity: 0.2;
+	width: 100px;
+}
+.middle-content:hover{
+	opacity: 0.8;
+	fill: var(--dark-purble-bg);
+}
+
+.right-content{
+
+}

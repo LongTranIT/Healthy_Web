@@ -1,0 +1,65 @@
+body {
+	margin: 0;
+	font-family: "Roboto",-apple-system, BlinkMacSystemFont, "Segoe UI", 
+		"Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+		"Helvetica Neue", sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+		monospace;
+}
+
+:root {
+	/* Length */
+	--logo-width: 72px;
+
+	--default-layout-header-height: 100px;
+	--default-layout-width: 100%;
+
+	/* Color */
+	--dark-blue-bg: #201d34;
+	--dark-blue-content-bg: #151226;
+	--dark-purble-bg: #34164e;
+	--paragraph-bg: #252239;
+	--white: #fff;
+
+	--number-gradient: linear-gradient(90deg,#f53373 0%,#bf51e8 100%,#bf51e8 0);
+
+	/* Button */
+	--button-background: linear-gradient(90deg, #33f5e0 0%, #5172e8);
+	--border-male: 10px solid rgba(91, 195, 240, 0.45);
+	--border-female: 10px solid rgba(239, 94, 186, 0.45);
+	--outline-trans-1: rgba(91, 215, 240, 0.2);
+	--outline-trans-2: rgba(239, 94, 186, 0.2);
+	--male-button-shadow: 0 12px 24px -4px rgba(30, 104, 255, 0.2);
+	--female-button-shadow: 0 12px 24px -4px rgba(255, 34, 155, 0.2);
+	--border-radius-button: 100px;
+	--button-2-bg: linear-gradient(90deg, #f53373 0%, #bf51e8 100%, #bf51e8 0);
+	--highlight-color: linear-gradient(90deg,#f53373 0%,#bf51e8 100%,#bf51e8 0);
+
+	--border-radius-content: 8px;
+
+	/* Text */
+	--text-color: #fff;
+	--font-size-14: 14px;
+    --font-size-16: 16px;
+    --font-size-20: 20px;
+    --font-size-31: 31.3px;
+    --font-size-36: 36px;
+    --font-size-39: 39.1px;
+	--font-weight-700: 700;
+    --font-weight-600: 600;
+    --font-weight-500: 500;
+    --font-weight-450: 450;
+    --font-weight-400: 400;
+    --font-weight-300: 300;
+	
+	--underline: hsla(0,0%,100%,.12);
+}
+
+* {
+	box-sizing: border-box;
+}

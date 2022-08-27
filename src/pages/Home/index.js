@@ -1,4 +1,7 @@
 import classNames from "classnames/bind";
+import { useState } from "react";
+import { TextField } from "@mui/material";
+
 import styles from "./Home.module.css";
 import Background from "../../assets/image/background.jpg";
 import CheckIcon from "../../components/CheckIcon/CheckIcon";
@@ -6,6 +9,112 @@ import CheckIcon from "../../components/CheckIcon/CheckIcon";
 const cx = classNames.bind(styles);
 
 function Home() {
+	const [stepInputInfo, setStepInputInfo] = useState(1);
+
+	function renderInputInfo() {
+		switch (stepInputInfo) {
+			case 0:
+				return (
+					<>
+						<h1>
+							Tìm hiểu xem bạn cần bao nhiêu calo trong thực đơn
+							hàng ngày
+						</h1>
+						<div
+							className={cx(
+								"section-home__gender-buttons",
+								"container-fluid"
+							)}
+						>
+							<div
+								className={cx(
+									"section-home__gender-buttons_button__select-female",
+									"section-home__gender-buttons_button"
+								)}
+								onClick={() => console.log("Nu")}
+							>
+								<div
+									className={cx(
+										"section-home__gender-buttons_button__select"
+									)}
+								>
+									<img
+										data-src="https://assets.appsforfit.com/assets/img/keto/icons/woman.svg"
+										className={cx(
+											"section-home__gender-buttons_button__icon"
+										)}
+										alt="man-icon"
+										src="https://assets.appsforfit.com/assets/img/keto/icons/woman.svg"
+									/>
+									<span
+										className={cx(
+											"section-home__gender-buttons_button__title"
+										)}
+									>
+										Nu
+									</span>
+								</div>
+							</div>
+							<div
+								className={cx(
+									"section-home__gender-buttons_button__select-male",
+									"section-home__gender-buttons_button"
+								)}
+							>
+								<div
+									className={cx(
+										"section-home__gender-buttons_button__select"
+									)}
+								>
+									<img
+										data-src="https://assets.appsforfit.com/assets/img/keto/icons/man.svg"
+										className={cx(
+											"section-home__gender-buttons_button__icon"
+										)}
+										alt="man-icon"
+										src="https://assets.appsforfit.com/assets/img/keto/icons/man.svg"
+									/>
+									<span
+										className={cx(
+											"section-home__gender-buttons_button__title"
+										)}
+									>
+										Nam
+									</span>
+								</div>
+							</div>
+						</div>
+					</>
+				);
+			case 1:
+				return (
+					<>
+						<h1>Nhập chiều cao và cân nặng</h1>
+						<div className={cx('inputs-box')}>
+							<input className={cx('input')} placeholder="Cân nặng"/>
+							<TextField
+								id="outlined-basic"
+								label="Outlined"
+								variant="outlined"
+								fullWidth
+								sx={{ input: { color: "white", border: "white" } }}
+							/>
+							<TextField
+								id="filled-basic"
+								label="Filled"
+								variant="filled"
+							/>
+							<TextField
+								id="standard-basic"
+								label="Standard"
+								variant="standard"
+							/>
+						</div>
+					</>
+				);
+		}
+	}
+
 	return (
 		<div className={cx("wrapper")}>
 			<div className={cx("top-content")}>
@@ -15,74 +124,7 @@ function Home() {
 					alt="Background"
 				/>
 				<div className={cx("content-on-background")}>
-					<h1>
-						Tìm hiểu xem bạn có thể giảm được bao nhiêu cân với chế
-						độ ăn kiêng Keto
-					</h1>
-					<div
-						className={cx(
-							"section-home__gender-buttons",
-							"container-fluid"
-						)}
-					>
-						<div
-							className={cx(
-								"section-home__gender-buttons_button__select-female",
-								"section-home__gender-buttons_button"
-							)}
-							onClick={() => console.log("Nu")}
-						>
-							<div
-								className={cx(
-									"section-home__gender-buttons_button__select"
-								)}
-							>
-								<img
-									data-src="https://assets.appsforfit.com/assets/img/keto/icons/woman.svg"
-									className={cx(
-										"section-home__gender-buttons_button__icon"
-									)}
-									alt="man-icon"
-									src="https://assets.appsforfit.com/assets/img/keto/icons/woman.svg"
-								/>
-								<span
-									className={cx(
-										"section-home__gender-buttons_button__title"
-									)}
-								>
-									Nu
-								</span>
-							</div>
-						</div>
-						<div
-							className={cx(
-								"section-home__gender-buttons_button__select-male",
-								"section-home__gender-buttons_button"
-							)}
-						>
-							<div
-								className={cx(
-									"section-home__gender-buttons_button__select"
-								)}
-							>
-								<img
-									data-src="https://assets.appsforfit.com/assets/img/keto/icons/man.svg"
-									className={cx(
-										"section-home__gender-buttons_button__icon"
-									)}
-									alt="man-icon"
-									src="https://assets.appsforfit.com/assets/img/keto/icons/man.svg"
-								/>
-								<span
-									className={cx(
-										"section-home__gender-buttons_button__title"
-									)}
-								>
-									Nam
-								</span>
-							</div>
-						</div>
-					</div>
+					{renderInputInfo()}
 				</div>
 			</div>
 
@@ -202,36 +244,51 @@ function Home() {
 					<div className={cx("section-youget__content")}>
 						<div className={cx("section-youget__title title")}>
 							<span className={cx("benefits-title")}>
-								<span className={cx("text-highlight-color--design-color")}>
+								<span
+									className={cx(
+										"text-highlight-color--design-color"
+									)}
+								>
 									Yourketo.diet
 								</span>
 							</span>
-							<br/>
+							<br />
 							Những gì mà bạn sẽ nhận được
 						</div>
 						<div className={cx("section-youget__side")}>
 							<ul className={cx("section-youget__list")}>
 								<li className={cx("section-youget__list-item")}>
-									<CheckIcon/>
-									<div className={cx("section-youget__list-text_sequence")}>
+									<CheckIcon />
+									<div
+										className={cx(
+											"section-youget__list-text_sequence"
+										)}
+									>
 										Step-by-step video tutorials
 									</div>
 								</li>
 								<li className={cx("section-youget__list-item")}>
-									<CheckIcon/>
-									<div className={cx("section-youget__list-text_sequence")}>
+									<CheckIcon />
+									<div
+										className={cx(
+											"section-youget__list-text_sequence"
+										)}
+									>
 										Công thức món ăn ngon và dễ nấu
 									</div>
 								</li>
 								<li className={cx("section-youget__list-item")}>
-									<CheckIcon/>
-									<div className={cx("section-youget__list-text_sequence")}>
+									<CheckIcon />
+									<div
+										className={cx(
+											"section-youget__list-text_sequence"
+										)}
+									>
 										Danh sách các món đồ cần mua mỗi tuần có
 										thể in ra và bao quát tất cả các thành
 										phần
 									</div>
 								</li>
-								
 							</ul>
 						</div>
 					</div>

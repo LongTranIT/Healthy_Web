@@ -65,7 +65,7 @@ function Home() {
 											"section-home__gender-buttons_button__title"
 										)}
 									>
-										Nu
+										Nữ
 									</span>
 								</div>
 							</div>
@@ -193,7 +193,16 @@ function Home() {
 								"section-home__gender-buttons_button__select-male",
 								"section-home__gender-buttons_button"
 							)}
-							onClick={()=>sessionStorage.setItem("userInfo",JSON.stringify(userInfo))}
+							onClick={()=>{
+								sessionStorage.setItem("userInfo",JSON.stringify(userInfo))
+								console.log(Helpers.calculateCalo(
+									userInfo.gender,
+									userInfo.age,
+									userInfo.weight,
+									userInfo.height,
+									+userInfo.activityLevel
+								));
+							}}
 							style={{
 								width: "300px",
 								position: "absolute",

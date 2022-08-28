@@ -1,6 +1,5 @@
 import classNames from "classnames/bind";
 import { useState } from "react";
-import { TextField } from "@mui/material";
 
 import styles from "./Home.module.css";
 import Background from "../../assets/image/background.jpg";
@@ -9,11 +8,18 @@ import CheckIcon from "../../components/CheckIcon/CheckIcon";
 const cx = classNames.bind(styles);
 
 function Home() {
-	const [stepInputInfo, setStepInputInfo] = useState(1);
+	const [userInfo, setUserInfo] = useState({
+		name: "",
+		gender: "",
+		age: 0,
+		weight:0,
+		height: 0
+	})
+	console.log(userInfo);
 
 	function renderInputInfo() {
-		switch (stepInputInfo) {
-			case 0:
+		switch (userInfo.gender) {
+			case "":
 				return (
 					<>
 						<h1>
@@ -31,7 +37,14 @@ function Home() {
 									"section-home__gender-buttons_button__select-female",
 									"section-home__gender-buttons_button"
 								)}
-								onClick={() => console.log("Nu")}
+								onClick={()=>{
+									setUserInfo((preState)=>{
+										return {
+											...preState,
+											gender: "nữ"
+										}
+									})
+								}}
 							>
 								<div
 									className={cx(
@@ -60,6 +73,14 @@ function Home() {
 									"section-home__gender-buttons_button__select-male",
 									"section-home__gender-buttons_button"
 								)}
+								onClick={()=>{
+									setUserInfo((preState)=>{
+										return {
+											...preState,
+											gender: "nam"
+										}
+									})
+								}}
 							>
 								<div
 									className={cx(
@@ -86,30 +107,77 @@ function Home() {
 						</div>
 					</>
 				);
-			case 1:
+			default:
 				return (
 					<>
-						<h1>Nhập chiều cao và cân nặng</h1>
-						<div className={cx('inputs-box')}>
-							<input className={cx('input')} placeholder="Cân nặng"/>
-							<TextField
-								id="outlined-basic"
-								label="Outlined"
-								variant="outlined"
-								fullWidth
-								sx={{ input: { color: "white", border: "white" } }}
-							/>
-							<TextField
-								id="filled-basic"
-								label="Filled"
-								variant="filled"
-							/>
-							<TextField
-								id="standard-basic"
-								label="Standard"
-								variant="standard"
-							/>
-						</div>
+						<h2
+							className={cx("text-highlight-color--design-color")}
+						>
+							Nhập chiều cao (Cm)
+						</h2>
+						<input
+							className={cx("input")}
+							placeholder="Chiều cao"
+							type={"number"}
+						/>
+						<h2
+							className={cx("text-highlight-color--design-color")}
+						>
+							Nhập chiều cao (Cm)
+						</h2>
+						<input
+							className={cx("input")}
+							placeholder="Chiều cao"
+							type={"number"}
+						/>
+						<h2
+							className={cx("text-highlight-color--design-color")}
+						>
+							Nhập cân nặng (Kg)
+						</h2>
+						<input
+							className={cx("input")}
+							placeholder="Cân nặng"
+							type={"number"}
+						/>
+						<h2
+							className={cx("text-highlight-color--design-color")}
+						>
+							Chọn mức độ vận động
+						</h2>
+						<select name="example" className={cx("input")}>
+							<option value="A">Không có hoặc ít</option>
+							<option value="B"> 1-3 ngày/tuần</option>
+							<option value="-">Vừa phải 3-5 ngày/tuần</option>
+							<option value="-">Năng động 6-7 ngày/tuần</option>
+						</select>
+						<div
+								className={cx(
+									"section-home__gender-buttons_button__select-male",
+									"section-home__gender-buttons_button"
+								)}
+								style={{
+									width: '300px',
+									position: 'absolute',
+									top: '50%',
+									left: '55%'
+								}}
+							>
+								<div
+									className={cx(
+										"section-home__gender-buttons_button__select"
+									)}
+								>
+									
+									<span
+										className={cx(
+											"section-home__gender-buttons_button__title"
+										)}
+									>
+										Xác Nhận
+									</span>
+								</div>
+							</div>
 					</>
 				);
 		}

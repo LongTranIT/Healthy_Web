@@ -8,11 +8,12 @@
 
 .background {
 	width: 100%;
+    
 }
 
 .content-on-background {
 	position: absolute;
-	top: 20%;
+	top: 10%;
 	width: 40%;
 	left: 10%;
 	color: var(--white);
@@ -216,7 +217,6 @@
 .text-highlight-color--design-color {
     -webkit-text-fill-color: transparent;
 	-webkit-background-clip: text;
-    font-size: var(--font-size-16);
     font-weight: 700;
     line-height: 1.5;
     text-align: left;
@@ -243,10 +243,11 @@
     padding: 0 0 14px;
 }
 
-
 .input{
-    outline:5px white;
-    border: 1px white;
+    outline:4px solid var(--white);
+    width: 50%;
+    font-size: var(--font-size-20);
+    border-radius: 4px;
     color: white;
     background-color: var(--dark-blue-bg);
 }

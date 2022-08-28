@@ -4,6 +4,7 @@ import { useState } from "react";
 import styles from "./Home.module.css";
 import Background from "../../assets/image/background.jpg";
 import CheckIcon from "../../components/CheckIcon/CheckIcon";
+import Helpers from "../../common/Helpers";
 
 const cx = classNames.bind(styles);
 
@@ -12,10 +13,10 @@ function Home() {
 		name: "",
 		gender: "",
 		age: 0,
-		weight:0,
-		height: 0
-	})
-	console.log(userInfo);
+		weight: 0,
+		height: 0,
+		activityLevel: 1.2,
+	});
 
 	function renderInputInfo() {
 		switch (userInfo.gender) {
@@ -37,13 +38,13 @@ function Home() {
 									"section-home__gender-buttons_button__select-female",
 									"section-home__gender-buttons_button"
 								)}
-								onClick={()=>{
-									setUserInfo((preState)=>{
+								onClick={() => {
+									setUserInfo((preState) => {
 										return {
 											...preState,
-											gender: "nữ"
-										}
-									})
+											gender: "nữ",
+										};
+									});
 								}}
 							>
 								<div
@@ -73,13 +74,13 @@ function Home() {
 									"section-home__gender-buttons_button__select-male",
 									"section-home__gender-buttons_button"
 								)}
-								onClick={()=>{
-									setUserInfo((preState)=>{
+								onClick={() => {
+									setUserInfo((preState) => {
 										return {
 											...preState,
-											gender: "nam"
-										}
-									})
+											gender: "nam",
+										};
+									});
 								}}
 							>
 								<div
@@ -113,12 +114,20 @@ function Home() {
 						<h2
 							className={cx("text-highlight-color--design-color")}
 						>
-							Nhập chiều cao (Cm)
+							Nhập tuổi
 						</h2>
 						<input
 							className={cx("input")}
-							placeholder="Chiều cao"
+							placeholder="Tuổi"
 							type={"number"}
+							onChange={(e) => {
+								setUserInfo((preState) => {
+									return {
+										...preState,
+										age: e.target.value,
+									};
+								});
+							}}
 						/>
 						<h2
 							className={cx("text-highlight-color--design-color")}
@@ -129,6 +138,14 @@ function Home() {
 							className={cx("input")}
 							placeholder="Chiều cao"
 							type={"number"}
+							onChange={(e) => {
+								setUserInfo((preState) => {
+									return {
+										...preState,
+										height: e.target.value,
+									};
+								});
+							}}
 						/>
 						<h2
 							className={cx("text-highlight-color--design-color")}
@@ -139,45 +156,65 @@ function Home() {
 							className={cx("input")}
 							placeholder="Cân nặng"
 							type={"number"}
+							onChange={(e) => {
+								setUserInfo((preState) => {
+									return {
+										...preState,
+										weight: e.target.value,
+									};
+								});
+							}}
 						/>
 						<h2
 							className={cx("text-highlight-color--design-color")}
 						>
 							Chọn mức độ vận động
 						</h2>
-						<select name="example" className={cx("input")}>
-							<option value="A">Không có hoặc ít</option>
-							<option value="B"> 1-3 ngày/tuần</option>
-							<option value="-">Vừa phải 3-5 ngày/tuần</option>
-							<option value="-">Năng động 6-7 ngày/tuần</option>
+						<select
+							name="example"
+							className={cx("input")}
+							onChange={(e) => {
+								setUserInfo((preState) => {
+									return {
+										...preState,
+										activityLevel: e.target.value,
+									};
+								});
+							}}
+							defaultValue= "1.2"
+						>
+							<option value="1.2">Không có hoặc ít</option>
+							<option value="1.375"> 1-3 ngày/tuần</option>
+							<option value="1.55">Vừa phải 3-5 ngày/tuần</option>
+							<option value="1.725">Năng động 6-7 ngày/tuần</option>
 						</select>
 						<div
+							className={cx(
+								"section-home__gender-buttons_button__select-male",
+								"section-home__gender-buttons_button"
+							)}
+							onClick={()=>sessionStorage.setItem("userInfo",JSON.stringify(userInfo))}
+							style={{
+								width: "300px",
+								position: "absolute",
+								top: "50%",
+								left: "55%",
+							}}
+						>
+							<div
 								className={cx(
-									"section-home__gender-buttons_button__select-male",
-									"section-home__gender-buttons_button"
+									"section-home__gender-buttons_button__select"
 								)}
-								style={{
-									width: '300px',
-									position: 'absolute',
-									top: '50%',
-									left: '55%'
-								}}
 							>
-								<div
+								<span
 									className={cx(
-										"section-home__gender-buttons_button__select"
+										"section-home__gender-buttons_button__title"
 									)}
 								>
-									
-									<span
-										className={cx(
-											"section-home__gender-buttons_button__title"
-										)}
-									>
-										Xác Nhận
-									</span>
-								</div>
+									Xác Nhận
+								</span>
 							</div>
+						</div>
 					</>
 				);
 		}

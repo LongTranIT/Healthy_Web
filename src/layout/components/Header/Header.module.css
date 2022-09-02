@@ -19,4 +19,5 @@
 
 .logo{
 	width: var(--logo-width);
+	cursor: pointer;
 }

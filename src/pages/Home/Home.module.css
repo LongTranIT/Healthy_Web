@@ -1,5 +1,6 @@
 .wrapper {
 	background-color: var(--paragraph-bg);
+    width: var(--default-layout-width);
 }
 
 .top-content {
@@ -243,7 +244,7 @@
 }
 
 .input{
-    outline:4px solid var(--white);
+    outline:2px solid var(--white);
     width: 50%;
     font-size: var(--font-size-20);
     border-radius: 4px;

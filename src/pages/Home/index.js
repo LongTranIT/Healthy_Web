@@ -1,14 +1,16 @@
 import classNames from "classnames/bind";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./Home.module.css";
 import Background from "../../assets/image/background.jpg";
-import CheckIcon from "../../components/CheckIcon/CheckIcon";
+import CheckIcon from "../../components/CheckIcon";
 import Helpers from "../../common/Helpers";
 
 const cx = classNames.bind(styles);
 
 function Home() {
+	const navigate= useNavigate()
 	const [userInfo, setUserInfo] = useState({
 		name: "",
 		gender: "",
@@ -128,6 +130,7 @@ function Home() {
 									};
 								});
 							}}
+							min={0}
 						/>
 						<h2
 							className={cx("text-highlight-color--design-color")}
@@ -146,6 +149,7 @@ function Home() {
 									};
 								});
 							}}
+							min={0}
 						/>
 						<h2
 							className={cx("text-highlight-color--design-color")}
@@ -164,6 +168,7 @@ function Home() {
 									};
 								});
 							}}
+							min={0}
 						/>
 						<h2
 							className={cx("text-highlight-color--design-color")}
@@ -195,13 +200,7 @@ function Home() {
 							)}
 							onClick={()=>{
 								sessionStorage.setItem("userInfo",JSON.stringify(userInfo))
-								console.log(Helpers.calculateCalo(
-									userInfo.gender,
-									userInfo.age,
-									userInfo.weight,
-									userInfo.height,
-									+userInfo.activityLevel
-								));
+								navigate('/caculated')
 							}}
 							style={{
 								width: "300px",

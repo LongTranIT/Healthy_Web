@@ -21,7 +21,7 @@ const Helpers ={
 		else {
 			caloResult=0;
 		}
-		return Math.floor(caloResult)*activityLevel;
+		return Math.floor(caloResult*activityLevel);
 	}
 }
 export default Helpers

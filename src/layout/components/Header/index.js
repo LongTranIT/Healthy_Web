@@ -1,23 +1,24 @@
 import classNames from "classnames/bind";
-import styles from "./Header.module.css"
+import { useNavigate } from "react-router-dom";
+import styles from "./Header.module.css";
 // import Strings from "../../../common/Strings";
-import Logo from "../../../components/Logo/Logo";
-import ListIcon from '@mui/icons-material/List';
+import Logo from "../../../components/Logo";
+import ListIcon from "@mui/icons-material/List";
 
-const cx=classNames.bind(styles)
+const cx = classNames.bind(styles);
 
 function Header() {
-	return ( 
-		<header className={cx('wrapper')}>
-			<div className={cx('inner')}>
+	const navigate = useNavigate();
+	return (
+		<header className={cx("wrapper")}>
+			<div className={cx("inner")}>
 				{/* {Strings.App.TITLE} */}
-				<div className={cx('logo')}>
-					<Logo/>
+				<div className={cx("logo")} onClick={()=>{navigate("/")}}>
+					<Logo />
 				</div>
 				<div>
-					<ListIcon fontSize="large"/>
+					<ListIcon fontSize="large" />
 				</div>
-				
 			</div>
 		</header>
 	);

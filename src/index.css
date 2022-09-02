@@ -63,3 +63,10 @@ code {
 * {
 	box-sizing: border-box;
 }
+
+h1,h2,h3{
+	-webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-image: var(--number-gradient);
+}

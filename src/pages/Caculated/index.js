@@ -1,12 +1,14 @@
-import { Radio, FormControlLabel, RadioGroup } from "@mui/material";
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
+import { Radio, FormControlLabel, RadioGroup, Button } from "@mui/material";
+import AddTaskIcon from '@mui/icons-material/AddTask';
 import classNames from "classnames/bind";
 import styles from "./Caculated.module.css";
 import Helpers from "../../common/Helpers";
 
 const cx = classNames.bind(styles);
 function Following() {
+	const navigate  = useNavigate()
 	const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
 	const caloStandard = Helpers.calculateCalo(
 		userInfo.gender,
@@ -15,7 +17,7 @@ function Following() {
 		userInfo.height,
 		userInfo.activityLevel
 	);
-    const [caloSelected, setCaloSelected]= useState(0);
+	const [caloSelected, setCaloSelected] = useState(0);
 	return (
 		<>
 			<h1> Kết quả tính toán</h1>
@@ -34,28 +36,40 @@ function Following() {
 				</tbody>
 			</table>
 			<h3>Vui lòng chọn mục tiêu bạn muốn</h3>
-	
-				<RadioGroup
-					value={caloSelected}
-					onChange={(e)=>setCaloSelected(e.target.value)}
-				>
-					<FormControlLabel
-						value={Math.floor(caloStandard * 0.8)}
-						control={<Radio />}
-						label="Giảm cân"
-					/>
-					<FormControlLabel
-						value={caloStandard}
-						control={<Radio />}
-						label="Giữ cân"
-					/>
-					<FormControlLabel
-						value={Math.floor(caloStandard * 1.2)}
-						control={<Radio />}
-						label="Tăng cân"
-					/>
-				</RadioGroup>
-			<i>Lượng calo bạn cần hàng hàng là: <b>{caloSelected}</b></i>
+
+			<RadioGroup
+				value={caloSelected}
+				onChange={(e) => setCaloSelected(e.target.value)}
+			>
+				<FormControlLabel
+					value={Math.floor(caloStandard * 0.8)}
+					control={<Radio />}
+					label="Giảm cân"
+				/>
+				<FormControlLabel
+					value={caloStandard}
+					control={<Radio />}
+					label="Giữ cân"
+				/>
+				<FormControlLabel
+					value={Math.floor(caloStandard * 1.2)}
+					control={<Radio />}
+					label="Tăng cân"
+				/>
+			</RadioGroup>
+			<i>
+				Lượng calo bạn cần hàng hàng là: <b>{caloSelected}</b>
+			</i>
+			<br/>
+			<Button
+				size="medium"
+				startIcon={<AddTaskIcon />}
+				variant={"contained"}
+				onClick={()=>{navigate('/menu')}}
+				disabled={caloSelected===0}
+			>
+				Tạo thực đơn
+			</Button>
 		</>
 	);
 }

@@ -21,3 +21,11 @@
 	width: var(--logo-width);
 	cursor: pointer;
 }
+
+.header-right{
+	color: var(--white);
+	font-size: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

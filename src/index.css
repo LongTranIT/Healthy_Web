@@ -70,3 +70,8 @@ h1,h2,h3{
     background-clip: text;
     background-image: var(--number-gradient);
 }
+
+.flex-box{
+	display: flex;
+	align-items: center;
+}

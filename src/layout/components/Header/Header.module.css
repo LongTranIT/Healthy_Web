@@ -29,3 +29,15 @@
 	justify-content: center;
 	align-items: center;
 }
+
+.title_input-group{
+	display: flex;
+	justify-content: space-between;
+	padding: 16px 0;
+	font-size: 20px;
+}
+
+.title_input-input{
+	flex: 1;
+	margin-left: 16px;
+}

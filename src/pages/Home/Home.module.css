@@ -251,3 +251,10 @@
     color: white;
     background-color: var(--dark-blue-bg);
 }
+
+.text-white{
+    color: var(--white);
+    -webkit-text-fill-color:none;
+	font-size: 24px;
+    margin-left: 16px;
+}

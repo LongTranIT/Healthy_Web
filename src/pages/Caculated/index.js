@@ -39,7 +39,11 @@ function Following() {
 
 			<RadioGroup
 				value={caloSelected}
-				onChange={(e) => setCaloSelected(e.target.value)}
+				onChange={(e) => {
+					userInfo.calo_muc_tieu=e.target.value
+					sessionStorage.setItem('userInfo',JSON.stringify(userInfo));
+					setCaloSelected(e.target.value)
+				}}
 			>
 				<FormControlLabel
 					value={Math.floor(caloStandard * 0.8)}

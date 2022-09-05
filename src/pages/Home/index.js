@@ -9,9 +9,12 @@ import Helpers from "../../common/Helpers";
 import { CasesTwoTone } from "@mui/icons-material";
 import { Typography } from "@mui/material";
 
+import UserService from "../../services/user.service";
+const userService= new UserService()
 const cx = classNames.bind(styles);
 
 function Home() {
+	console.log(userService.getUsers());
 	const navigate = useNavigate();
 	const [userInfo, setUserInfo] = useState(
 		JSON.parse(sessionStorage.getItem("userInfo")) || {

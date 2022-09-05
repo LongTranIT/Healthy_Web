@@ -14,10 +14,13 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
+import AccountService from "../../../services/account.service";
 
 const cx = classNames.bind(styles);
+const accountService = new AccountService()
 
 function Header() {
+	const [account, setAccount]= useState({username:'',password:''})
 	const userInfo= JSON.parse(sessionStorage.getItem('userInfo'))
 	const navigate = useNavigate();
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -28,6 +31,10 @@ function Header() {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
+	const login=async()=>{
+		const user=await accountService.login(account.username,account.password)
+		sessionStorage.setItem('userInfo', JSON.stringify(user))
+	}
 
 	const [openModal, setOpenModal] = useState(false);
 	const handleOpenModal = () => setOpenModal(true);
@@ -67,17 +74,20 @@ function Header() {
 					</Typography>
 					<div className={cx('title_input-group')}>
 						<span>Username</span>
-						<input className={cx('title_input-input')}/>
+						<input className={cx('title_input-input')} onChange={(e)=>setAccount({...account,username: e.target.value})}/>
 					</div>
 					<div className={cx('title_input-group')}>
 						<span>Password</span>
-						<input type={'password'} className={cx('title_input-input')}/>
+						<input type={'password'} className={cx('title_input-input')} onChange={(e)=>setAccount({...account,password: e.target.value})}/>
 					</div>
 					<Button
 						size="small"
 						startIcon={<LockOpenIcon />}
 						variant={"contained"}
-						onClick={handleCloseModal}
+						onClick={()=>{
+							handleCloseModal()
+							login()
+						}}
 					>
 						Đăng nhập
 					</Button>

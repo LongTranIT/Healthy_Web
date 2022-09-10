@@ -10,28 +10,58 @@ import { CasesTwoTone } from "@mui/icons-material";
 import { Typography } from "@mui/material";
 
 import UserService from "../../services/user.service";
+import AccountService from "../../services/account.service";
 const userService= new UserService()
+const accountService= new AccountService()
 const cx = classNames.bind(styles);
 
 function Home() {
-	console.log(userService.getUsers());
 	const navigate = useNavigate();
 	const [userInfo, setUserInfo] = useState(
 		JSON.parse(sessionStorage.getItem("userInfo")) || {
-			name: "",
-			gender: "",
-			age: 0,
-			weight: 0,
-			height: 0,
-			activityLevel: 1.2,
+			_id:"",
+			ho_ten: "",
+			gioi_tinh: "",
+			tuoi: 0,
+			can_nang: 0,
+			chieu_cao: 0,
+			van_dong: 1.2,
 		}
 	);
-	const [step, setStep] = useState(userInfo.name ? 3 : 0);
+	const [step, setStep] = useState(userInfo.ho_ten ? 3 : 0);
 
 	const [account, setAccount] = useState({
 		username: "",
 		password: "",
 	});
+
+	const handleSubmit=async()=>{
+		// sessionStorage.setItem(
+		// 	"userInfo",
+		// 	JSON.stringify(userInfo)
+		// );
+		const accountId= (await accountService.signUp(account))['_id']
+		const userCreated= await userService.addUser({
+			ho_ten: userInfo.ho_ten,
+			gioi_tinh: userInfo.gioi_tinh,
+			tuoi: userInfo.tuoi,
+			can_nang: userInfo.can_nang,
+			chieu_cao: userInfo.chieu_cao,
+			van_dong: userInfo.van_dong,
+			calo_muc_tieu: 0,
+			tai_khoan: accountId
+		})
+		const user=await accountService.login(account.username,account.password)
+		if(user.ho_ten){
+			alert("Tạo tài khoản thành công")
+			sessionStorage.setItem('userInfo', JSON.stringify(user))
+			window.location.reload()
+		}
+		else{
+			alert(user.message)
+		}
+		// navigate("/caculated");
+	}
 
 	function renderInputInfo() {
 		switch (step) {
@@ -57,7 +87,7 @@ function Home() {
 									setUserInfo((preState) => {
 										return {
 											...preState,
-											gender: "nữ",
+											gioi_tinh: "nữ",
 										};
 									});
 									setStep(1);
@@ -94,7 +124,7 @@ function Home() {
 									setUserInfo((preState) => {
 										return {
 											...preState,
-											gender: "nam",
+											gioi_tinh: "nam",
 										};
 									});
 									setStep(1);
@@ -142,7 +172,7 @@ function Home() {
 								setUserInfo((preState) => {
 									return {
 										...preState,
-										age: e.target.value,
+										tuoi: e.target.value,
 									};
 								});
 							}}
@@ -161,7 +191,7 @@ function Home() {
 								setUserInfo((preState) => {
 									return {
 										...preState,
-										height: e.target.value,
+										chieu_cao: e.target.value,
 									};
 								});
 							}}
@@ -180,7 +210,7 @@ function Home() {
 								setUserInfo((preState) => {
 									return {
 										...preState,
-										weight: e.target.value,
+										can_nang: e.target.value,
 									};
 								});
 							}}
@@ -198,7 +228,7 @@ function Home() {
 								setUserInfo((preState) => {
 									return {
 										...preState,
-										activityLevel: e.target.value,
+										van_dong: e.target.value,
 									};
 								});
 							}}
@@ -252,14 +282,14 @@ function Home() {
 						</h2>
 						<input
 							className={cx("input")}
-							value={userInfo.name}
+							value={userInfo.ho_ten}
 							id="name"
 							placeholder="Tên"
 							onChange={(e) => {
 								setUserInfo((preState) => {
 									return {
 										...preState,
-										name: e.target.value,
+										ho_ten: e.target.value,
 									};
 								});
 							}}
@@ -308,11 +338,7 @@ function Home() {
 								"section-home__gender-buttons_button"
 							)}
 							onClick={() => {
-								sessionStorage.setItem(
-									"userInfo",
-									JSON.stringify(userInfo)
-								);
-								navigate("/caculated");
+								handleSubmit()
 							}}
 							style={{
 								width: "300px",
@@ -349,7 +375,7 @@ function Home() {
 								Tên
 							</h2>
 							<span className={cx("text-white")}>
-								{userInfo.name}
+								{userInfo.ho_ten}
 							</span>
 						</div>
 						<div className={cx("flex-box")}>
@@ -361,7 +387,7 @@ function Home() {
 								Tuổi
 							</h2>
 							<span className={cx("text-white")}>
-								{userInfo.age}
+								{userInfo.tuoi}
 							</span>
 						</div>
 						<div className={cx("flex-box")}>
@@ -373,7 +399,7 @@ function Home() {
 								Giới tính
 							</h2>
 							<span className={cx("text-white")}>
-								{userInfo.gender}
+								{userInfo.gioi_tinh}
 							</span>
 						</div>
 						<div className={cx("flex-box")}>
@@ -385,7 +411,7 @@ function Home() {
 								Chiều cao
 							</h2>
 							<span className={cx("text-white")}>
-								{userInfo.height} (cm)
+								{userInfo.chieu_cao} (cm)
 							</span>
 						</div>
 						<div className={cx("flex-box")}>
@@ -397,7 +423,7 @@ function Home() {
 								Cân nặng
 							</h2>
 							<span className={cx("text-white")}>
-								{userInfo.weight} (kg)
+								{userInfo.can_nang} (kg)
 							</span>
 						</div>
 						<div className={cx("flex-box")}>
@@ -419,11 +445,7 @@ function Home() {
 								"section-home__gender-buttons_button"
 							)}
 							onClick={() => {
-								sessionStorage.setItem(
-									"userInfo",
-									JSON.stringify(userInfo)
-								);
-								navigate("/caculated");
+								navigate('/caculated')
 							}}
 							style={{
 								width: "300px",
@@ -442,10 +464,11 @@ function Home() {
 										"section-home__gender-buttons_button__title"
 									)}
 								>
-									Xác Nhận
+									Chọn calo
 								</span>
 							</div>
 						</div>
+						
 					</>
 				);
 		}

@@ -49,7 +49,7 @@ export default function MenuCard() {
 						size="small"
 						startIcon={<TaskAltIcon />}
 						variant={"contained"}
-						// onClick={handleOpen}
+						onClick={()=>{navigate('/exercisedoing')}}
 					>
 						Tập luyện
 					</Button>

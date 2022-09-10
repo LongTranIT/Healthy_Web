@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
@@ -8,13 +9,24 @@ import Modal from "@mui/material/Modal";
 import DatePicker from 'react-date-picker';
 
 import classNames from "classnames/bind";
-
 import styles from "./MenuDetail.module.css";
+import MenuService from "../../services/menu.service";
 
 const cx = classNames.bind(styles);
+const menuService = new MenuService();
 function Menu() {
+	const { menuId } = useParams();
 	const [open, setOpen] = useState(false);
 	const [dateSelected, setDateSelected] = useState(new Date());
+	const [menuData, setMenuData]= useState()
+	useEffect(() => {
+		const initData = async () => {
+			const menu = await menuService.getById(menuId);
+			setMenuData(menu);
+		};
+		initData();
+	}, []);
+
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 	const modalStyle = {
@@ -65,7 +77,7 @@ function Menu() {
 				</Box>
 			</Modal>
 			<div className={cx("wrapper")}>
-				<h1 className={cx("title-page")}>Thực đơn ....</h1>
+				<h1 className={cx("title-page")}>{menuData?.ten}</h1>
 				<Button
 					size="small"
 					startIcon={<AddCircleIcon />}
@@ -75,41 +87,22 @@ function Menu() {
 					Thêm
 				</Button>
 				<img
-					src="https://www.thatlangon.com/wp-content/uploads/2021/01/ca-kho-2.jpg"
+					src={menuData?.hinh}
 					width={1000}
 				/>
 				<h2>Nguyên liệu</h2>
-				<p>
-					1 con cá lóc 1kg
-					<br />
-					100ml nước mắm
-				</p>
-				<h2>Cách thực hiện</h2>
-				<p>
-					Rửa sạch củ nghệ, giã nhuyễn.
-					<br />
-					Làm sạch cá. Ướp cá với nghệ, nước mắm, đường, bột nêm, hành
-					băm, ớt băm khoảng 15 phút cho ngấm.
-					<br />
-					Cho cá vào nồi, cho nước dừa tươi, dầu ăn vào, đun trên lửa
-					nhỏ cho đến khi nước kho sánh lại. Dọn cá ra đĩa, xếp vài
-					lát nghệ lên trên.
-				</p>
+				<ul>
+					{menuData?.thanh_phan.map((item,index)=>{
+						return (
+							<li key={index}>
+								{item?.thuc_pham?.ten} - {item.so_luong} (gam)
+							</li>
+						)
+					})}
+				</ul>
 				<h2>Mô tả</h2>
 				<p>
-					Cá kho là một trong những món ăn đặc trưng trên mâm cơm
-					thường ngày của người Việt. Có tới hàng chục cách kho, hương
-					vị cá kho khác nhau, thay đổi theo vùng miền. Có vùng thích
-					cá kho nổi mùi riềng, thịt rắn đanh, rục xương. Có vùng
-					thích kho cá lạt, vị thanh, còn nhiều nước, chan bún như
-					canh. Có nơi thích nước kho sệt, nổi vị mặn ngọt đậm đà. Hôm
-					nay, Thật Là Ngon giới thiệu cách kho cá quả kiểu kho tộ
-					miền Nam cùng nhiều bí kíp để có một nồi cá kho ngon với tất
-					tật các loại cá và các loại gia vị khác nhau. Bạn có thể áp
-					dụng cho hầu hết các loại cá như cá chép, trắm, rô, basa,...
-					Cả nhà quây quần bên mâm cơm có cơm dẻo, cá kho đậm đà, đĩa
-					rau luộc chấm nước kho sánh kẹo thì hạnh phúc chừng nào!
-					Mình cùng vào bếp nhé!
+					{menuData?.mo_ta}
 				</p>
 			</div>
 		</>

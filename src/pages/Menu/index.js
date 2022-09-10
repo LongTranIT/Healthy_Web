@@ -5,16 +5,30 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import { Box } from "@mui/system";
 import { Button } from "@mui/material";
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from "@mui/icons-material/Add";
 import classNames from "classnames/bind";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import styles from "./Menu.module.css";
 import MenuCard from "../../components/MenuCard";
+import { useNavigate } from "react-router-dom";
+import MenuTypeService from "../../services/menuType.service";
 
 const cx = classNames.bind(styles);
+const menuTypeService = new MenuTypeService();
 function Menu() {
-	const [tabIndex, setTabIndex] = useState("1");
+	const [menuTypes, setmenuTypes] = useState([]);
+	useEffect(() => {
+		const initData = async () => {
+			const menus = await menuTypeService.getAll();
+			setmenuTypes(menus);
+			setTabIndex(menus[0]['_id'])
+		};
+		initData();
+	}, []);
+
+	const navigate = useNavigate();
+	const [tabIndex, setTabIndex] = useState();
 
 	const handleChange = (event, newValue) => {
 		setTabIndex(newValue);
@@ -22,60 +36,37 @@ function Menu() {
 	return (
 		<div className={cx("wrapper")}>
 			<h1 className={cx("title-page")}>Danh sách thực đơn</h1>
+			<Button variant="contained" className={cx("new-menu-button")} startIcon={<AddIcon />} onClick={()=>{navigate('/newMenu')}}>Thêm thực đơn</Button>
 			<TabContext value={tabIndex}>
 				<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-					<TabList
-						onChange={handleChange}
-					>
-						<Tab label="Thực đơn giảm cân" value="1" />
-						<Tab label="Thực đơn tự tạo" value="2" />
+					<TabList onChange={handleChange}>
+						{menuTypes.map((type) => {
+							return (
+								<Tab
+									label={type.ten}
+									value={type["_id"]}
+									key={type["_id"]}
+								/>
+							);
+						})}
 					</TabList>
 				</Box>
-				<TabPanel value="1">
-					<Grid container spacing={2}>
-						<Grid item xs={4}>
-							<MenuCard />
-						</Grid>
-						<Grid item xs={4}>
-							<MenuCard />
-						</Grid>
-						<Grid item xs={4}>
-							<MenuCard />
-						</Grid>
-						<Grid item xs={4}>
-							<MenuCard />
-						</Grid>
-						<Grid item xs={4}>
-							<MenuCard />
-						</Grid>
-						<Grid item xs={4}>
-							<MenuCard />
-						</Grid>
-					</Grid>
-				</TabPanel>
-				<TabPanel value="2">
-					<Button variant="contained" className={cx("new-menu-button")} startIcon={<AddIcon />}>Thêm thực đơn</Button>
-					<Grid container spacing={2}>
-						<Grid item xs={4}>
-							<MenuCard />
-						</Grid>
-						<Grid item xs={4}>
-							<MenuCard />
-						</Grid>
-						<Grid item xs={4}>
-							<MenuCard />
-						</Grid>
-						<Grid item xs={4}>
-							<MenuCard />
-						</Grid>
-						<Grid item xs={4}>
-							<MenuCard />
-						</Grid>
-						<Grid item xs={4}>
-							<MenuCard />
-						</Grid>
-					</Grid>
-				</TabPanel>
+				{menuTypes.map((type) => {
+					return (
+						<TabPanel value={type["_id"]} key={type["_id"]}>
+							<h3>{type.mo_ta}</h3>
+							<Grid container spacing={2}>
+								{type.thuc_don.map((menu) => {
+									return (
+										<Grid item xs={4} key={menu['_id']}>
+											<MenuCard data={menu}/>
+										</Grid>
+									);
+								})}
+							</Grid>
+						</TabPanel>
+					);
+				})}
 			</TabContext>
 		</div>
 	);

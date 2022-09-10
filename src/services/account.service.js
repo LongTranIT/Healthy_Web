@@ -4,6 +4,10 @@ class AccountService{
 		const result= await axios.post("https://healthy--api.herokuapp.com/login",{username, password})
 		return result.data
 	}
+	signUp=async(accountData)=>{
+		const result= await axios.post("https://healthy--api.herokuapp.com/taikhoan",accountData)
+		return result.data
+	}
 }
 
 export default AccountService

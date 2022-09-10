@@ -1,4 +1,4 @@
-import {useState}from "react";
+import { useState } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -7,17 +7,18 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import SearchIcon from "@mui/icons-material/Search";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
+import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import classNames from "classnames/bind";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import DatePicker from 'react-date-picker';
+import DatePicker from "react-date-picker";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./MenuCard.module.css";
 
-
 const cx = classNames.bind(styles);
-export default function MenuCard() {
+export default function MenuCard({data}) {
+	const navigate = useNavigate();
 	const [open, setOpen] = useState(false);
 	const [dateSelected, setDateSelected] = useState(new Date());
 	const handleOpen = () => setOpen(true);
@@ -32,12 +33,12 @@ export default function MenuCard() {
 		border: "2px solid #000",
 		boxShadow: 24,
 		p: 4,
-		
-		display: 'flex',
-		flexDirection: 'column',
-		gap: 2
+
+		display: "flex",
+		flexDirection: "column",
+		gap: 2,
 	};
-	
+
 	return (
 		<>
 			<Modal
@@ -54,11 +55,15 @@ export default function MenuCard() {
 					>
 						Thực đơn cho ngày nào?
 					</Typography>
-					<DatePicker onChange={setDateSelected} value={dateSelected} format="dd/MM/y"/>
+					<DatePicker
+						onChange={setDateSelected}
+						value={dateSelected}
+						format="dd/MM/y"
+					/>
 					<Button
 						size="small"
 						startIcon={<LibraryAddIcon />}
-						variant={'contained'}
+						variant={"contained"}
 						onClick={handleClose}
 					>
 						Xác nhận
@@ -69,36 +74,29 @@ export default function MenuCard() {
 				<CardMedia
 					component="img"
 					height="250"
-					image="https://www.thatlangon.com/wp-content/uploads/2021/01/ca-kho-2.jpg"
+					image={data.hinh}
 					alt="green iguana"
 				/>
 				<CardContent>
 					<Typography gutterBottom variant="h5" component="div">
-						Cá kho
+						{data.ten}
 					</Typography>
 					<Typography
 						variant="body2"
 						color="text.secondary"
 						className={cx("limit-text")}
 					>
-						Cá kho là một trong những món ăn đặc trưng trên mâm cơm
-						thường ngày của người Việt. Có tới hàng chục cách kho,
-						hương vị cá kho khác nhau, thay đổi theo vùng miền. Có
-						vùng thích cá kho nổi mùi riềng, thịt rắn đanh, rục
-						xương. Có vùng thích kho cá lạt, vị thanh, còn nhiều
-						nước, chan bún như canh. Có nơi thích nước kho sệt, nổi
-						vị mặn ngọt đậm đà. Hôm nay, Thật Là Ngon giới thiệu
-						cách kho cá quả kiểu kho tộ miền Nam cùng nhiều bí kíp
-						để có một nồi cá kho ngon với tất tật các loại cá và các
-						loại gia vị khác nhau. Bạn có thể áp dụng cho hầu hết
-						các loại cá như cá chép, trắm, rô, basa,... Cả nhà quây
-						quần bên mâm cơm có cơm dẻo, cá kho đậm đà, đĩa rau luộc
-						chấm nước kho sánh kẹo thì hạnh phúc chừng nào! Mình
-						cùng vào bếp nhé!
+						{data.mo_ta}
 					</Typography>
 				</CardContent>
 				<CardActions className={cx("action-group")}>
-					<Button size="small" startIcon={<SearchIcon />}>
+					<Button
+						size="small"
+						startIcon={<SearchIcon />}
+						onClick={() => {
+							navigate(`/menudetail/${data['_id']}`);
+						}}
+					>
 						Xem{" "}
 					</Button>
 					<Button

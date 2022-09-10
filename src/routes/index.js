@@ -14,8 +14,10 @@ const publicRoutes = [
     {path: '/', component: HomePage},
     {path: '/caculated', component: Caculated},
     {path: '/foodlist', component: FoodList},
+    {path: '/menudetail', component: MenuDetail, children:[
+        {path: ':menuId', component: MenuDetail}
+    ]},
     {path: '/menu', component: Menu},
-    {path: '/menudetail', component: MenuDetail},
     {path: '/statistic', component: Statistic},
     {path: '/newMenu', component: NewMenu},
     {path: '/exercise', component: Exercise},

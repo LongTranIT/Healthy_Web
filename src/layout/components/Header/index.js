@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { Button } from "@mui/material";
@@ -20,6 +20,7 @@ const cx = classNames.bind(styles);
 const accountService = new AccountService()
 
 function Header() {
+	const loginButton=useRef()
 	const [account, setAccount]= useState({username:'',password:''})
 	const userInfo= JSON.parse(sessionStorage.getItem('userInfo'))
 	const navigate = useNavigate();
@@ -32,8 +33,20 @@ function Header() {
 		setAnchorEl(null);
 	};
 	const login=async()=>{
-		const user=await accountService.login(account.username,account.password)
-		sessionStorage.setItem('userInfo', JSON.stringify(user))
+		try{
+			const user=await accountService.login(account.username,account.password)
+			if(user.ho_ten){
+				alert("Đăng nhập thành công")
+				sessionStorage.setItem('userInfo', JSON.stringify(user))
+				window.location.reload()
+			}
+			else{
+				alert(user.message)
+			}
+		}
+		catch(ex){
+			alert(ex);
+		}
 	}
 
 	const [openModal, setOpenModal] = useState(false);
@@ -62,6 +75,11 @@ function Header() {
 				onClose={handleCloseModal}
 				aria-labelledby="modal-modal-title"
 				aria-describedby="modal-modal-description"
+				onKeyDown={(e)=>{
+					if(e.key==='Enter'){
+						loginButton.current.click()
+					}
+				}}
 			>
 				<Box sx={modalStyle}>
 					<Typography
@@ -88,6 +106,7 @@ function Header() {
 							handleCloseModal()
 							login()
 						}}
+						ref={loginButton}
 					>
 						Đăng nhập
 					</Button>
@@ -112,7 +131,7 @@ function Header() {
 							sx={{ color: "white" }}
 							onClick={handleClick}
 						>
-							{userInfo.name}
+							{userInfo?.ho_ten}
 						</Button>
 							:
 							 <Button

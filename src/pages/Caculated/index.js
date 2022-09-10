@@ -5,17 +5,19 @@ import AddTaskIcon from '@mui/icons-material/AddTask';
 import classNames from "classnames/bind";
 import styles from "./Caculated.module.css";
 import Helpers from "../../common/Helpers";
+import UserService from "../../services/user.service";
 
+const userService = new UserService()
 const cx = classNames.bind(styles);
 function Following() {
 	const navigate  = useNavigate()
 	const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
 	const caloStandard = Helpers.calculateCalo(
-		userInfo.gender,
-		userInfo.age,
-		userInfo.weight,
-		userInfo.height,
-		userInfo.activityLevel
+		userInfo.gioi_tinh,
+		userInfo.tuoi,
+		userInfo.can_nang,
+		userInfo.chieu_cao,
+		userInfo.van_dong
 	);
 	const [caloSelected, setCaloSelected] = useState(0);
 	return (
@@ -69,7 +71,12 @@ function Following() {
 				size="medium"
 				startIcon={<AddTaskIcon />}
 				variant={"contained"}
-				onClick={()=>{navigate('/menu')}}
+				onClick={()=>{
+					userService.updateUser(userInfo['_id'],{
+						calo_muc_tieu: caloSelected
+					})
+					navigate('/menu')
+				}}
 				disabled={caloSelected===0}
 			>
 				Tạo thực đơn

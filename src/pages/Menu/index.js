@@ -59,7 +59,7 @@ function Menu() {
 								{type.thuc_don.map((menu) => {
 									return (
 										<Grid item xs={4} key={menu['_id']}>
-											<MenuCard data={menu}/>
+											<MenuCard data={menu} deleteAble={type.ten==='Thực đơn tự tạo'}/>
 										</Grid>
 									);
 								})}

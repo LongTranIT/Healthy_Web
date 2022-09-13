@@ -7,12 +7,20 @@ import DatePicker from "react-date-picker";
 import classNames from "classnames/bind";
 import styles from "./NewMenu.module.css";
 import FoodService from "../../services/food.service";
+import MenuDetailService from "../../services/menuDetail.service";
+import MenuService from "../../services/menu.service";
+import MenuTypeService from "../../services/menuType.service";
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 const foodService = new FoodService();
+const menuDetailService=  new MenuDetailService()
+const menuService=  new MenuService()
+const menuTypeService =new MenuTypeService()
 
 function FoodList() {
+	const navigate= useNavigate()
 	const [open, setOpen] = useState(false);
 	const [dateSelected, setDateSelected] = useState(new Date());
 	const [foodData, setFoodData] = useState([]);
@@ -37,7 +45,7 @@ function FoodList() {
 
 	const foodsDisplay = foodData.map((item, index) => {
 		return {
-			label: item.ten,
+			label: item.ten +"    -   "+ item.calo +" Kcal",
 			id: item["_id"],
 			calo: item.calo,
 		};
@@ -49,6 +57,26 @@ function FoodList() {
 		});
 		return Math.floor(caloTotal);
 	};
+
+	const handleAddMenu=()=>{
+		Promise.all(menuElements.map(item=>menuDetailService.add({
+			thuc_pham: item.thuc_pham,
+			so_luong: item.so_luong
+		})))
+		.then(async(results)=>{
+			const thanh_phan=results.map(item=>item['_id'])
+			const newMenu=await menuService.add({
+				ten: menu.ten,
+				thanh_phan,
+				mo_ta: menu.mo_ta,
+				calo: menu.calo,
+				hinh: 'https://monhuenhalam.com/wp-content/themes/ntna076/images/icon_256-.png'
+			})
+			menuTypeService.addMenu({idThucDon: newMenu['_id']})
+			navigate('/menu')
+		})
+	}
+
 	return (
 		<div className={cx("wrapper")}>
 			<div className={cx("header")}>
@@ -64,7 +92,7 @@ function FoodList() {
 						size="small"
 						startIcon={<LibraryAddIcon />}
 						variant={"contained"}
-						// onClick={handleClose}
+						onClick={handleAddMenu}
 					>
 						Tạo thực đơn
 					</Button>

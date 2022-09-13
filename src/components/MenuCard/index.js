@@ -13,11 +13,13 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import DatePicker from "react-date-picker";
 import { useNavigate } from "react-router-dom";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import MenuService from "../../services/menu.service";
 
 import styles from "./MenuCard.module.css";
-
+const menuService= new MenuService()
 const cx = classNames.bind(styles);
-export default function MenuCard({data}) {
+export default function MenuCard({ data, deleteAble }) {
 	const navigate = useNavigate();
 	const [open, setOpen] = useState(false);
 	const [dateSelected, setDateSelected] = useState(new Date());
@@ -91,15 +93,29 @@ export default function MenuCard({data}) {
 					</Typography>
 				</CardContent>
 				<CardActions className={cx("action-group")}>
+					{deleteAble ? (
+						<Button
+							size="small"
+							startIcon={<HighlightOffIcon />}
+							onClick={() => {
+								menuService.delete(data["_id"])
+							}}
+							color={"error"}
+						>
+							Xóa
+						</Button>
+					):''}
 					<Button
 						size="small"
 						startIcon={<SearchIcon />}
 						onClick={() => {
-							navigate(`/menudetail/${data['_id']}`);
+							navigate(`/menudetail/${data["_id"]}`);
 						}}
+						color={"info"}
 					>
-						Xem{" "}
+						Xem
 					</Button>
+
 					<Button
 						size="small"
 						startIcon={<AddCircleIcon />}

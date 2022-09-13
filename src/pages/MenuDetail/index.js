@@ -86,10 +86,12 @@ function Menu() {
 				>
 					Thêm
 				</Button>
+				<br/>
 				<img
 					src={menuData?.hinh}
 					width={1000}
 				/>
+				<h2>Calo: {menuData?.calo}</h2>
 				<h2>Nguyên liệu</h2>
 				<ul>
 					{menuData?.thanh_phan.map((item,index)=>{

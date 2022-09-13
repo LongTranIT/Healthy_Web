@@ -1,144 +1,54 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import Autocomplete from "@mui/material/Autocomplete";
 import DatePicker from "react-date-picker";
 import classNames from "classnames/bind";
-
 import styles from "./NewMenu.module.css";
+import FoodService from "../../services/food.service";
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 const cx = classNames.bind(styles);
+const foodService = new FoodService();
+
 function FoodList() {
 	const [open, setOpen] = useState(false);
 	const [dateSelected, setDateSelected] = useState(new Date());
+	const [foodData, setFoodData] = useState([]);
+	const [menu, setMenu] = useState({});
+	const [menuElements, setMenuElements] = useState([]);
+	const [menuElement, setMenuElement] = useState({});
+	useEffect(() => {
+		const initData = async () => {
+			const foods = await foodService.getAll();
+			setFoodData(foods);
+		};
+		initData();
+	}, []);
 
-	const top100Films = [
-		{ label: "The Shawshank Redemption", year: 1994, value: 1 },
-		{ label: "The Godfather", year: 1972, value: 2 },
-		{ label: "The Godfather: Part II", year: 1974 },
-		{ label: "The Dark Knight", year: 2008 },
-		{ label: "12 Angry Men", year: 1957 },
-		{ label: "Schindler's List", year: 1993 },
-		{ label: "Pulp Fiction", year: 1994 },
-		{
-			label: "The Lord of the Rings: The Return of the King",
-			year: 2003,
-		},
-		{ label: "The Good, the Bad and the Ugly", year: 1966 },
-		{ label: "Fight Club", year: 1999 },
-		{
-			label: "The Lord of the Rings: The Fellowship of the Ring",
-			year: 2001,
-		},
-		{
-			label: "Star Wars: Episode V - The Empire Strikes Back",
-			year: 1980,
-		},
-		{ label: "Forrest Gump", year: 1994 },
-		{ label: "Inception", year: 2010 },
-		{
-			label: "The Lord of the Rings: The Two Towers",
-			year: 2002,
-		},
-		{ label: "One Flew Over the Cuckoo's Nest", year: 1975 },
-		{ label: "Goodfellas", year: 1990 },
-		{ label: "The Matrix", year: 1999 },
-		{ label: "Seven Samurai", year: 1954 },
-		{
-			label: "Star Wars: Episode IV - A New Hope",
-			year: 1977,
-		},
-		{ label: "City of God", year: 2002 },
-		{ label: "Se7en", year: 1995 },
-		{ label: "The Silence of the Lambs", year: 1991 },
-		{ label: "It's a Wonderful Life", year: 1946 },
-		{ label: "Life Is Beautiful", year: 1997 },
-		{ label: "The Usual Suspects", year: 1995 },
-		{ label: "Léon: The Professional", year: 1994 },
-		{ label: "Spirited Away", year: 2001 },
-		{ label: "Saving Private Ryan", year: 1998 },
-		{ label: "Once Upon a Time in the West", year: 1968 },
-		{ label: "American History X", year: 1998 },
-		{ label: "Interstellar", year: 2014 },
-		{ label: "Casablanca", year: 1942 },
-		{ label: "City Lights", year: 1931 },
-		{ label: "Psycho", year: 1960 },
-		{ label: "The Green Mile", year: 1999 },
-		{ label: "The Intouchables", year: 2011 },
-		{ label: "Modern Times", year: 1936 },
-		{ label: "Raiders of the Lost Ark", year: 1981 },
-		{ label: "Rear Window", year: 1954 },
-		{ label: "The Pianist", year: 2002 },
-		{ label: "The Departed", year: 2006 },
-		{ label: "Terminator 2: Judgment Day", year: 1991 },
-		{ label: "Back to the Future", year: 1985 },
-		{ label: "Whiplash", year: 2014 },
-		{ label: "Gladiator", year: 2000 },
-		{ label: "Memento", year: 2000 },
-		{ label: "The Prestige", year: 2006 },
-		{ label: "The Lion King", year: 1994 },
-		{ label: "Apocalypse Now", year: 1979 },
-		{ label: "Alien", year: 1979 },
-		{ label: "Sunset Boulevard", year: 1950 },
-		{
-			label: "Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb",
-			year: 1964,
-		},
-		{ label: "The Great Dictator", year: 1940 },
-		{ label: "Cinema Paradiso", year: 1988 },
-		{ label: "The Lives of Others", year: 2006 },
-		{ label: "Grave of the Fireflies", year: 1988 },
-		{ label: "Paths of Glory", year: 1957 },
-		{ label: "Django Unchained", year: 2012 },
-		{ label: "The Shining", year: 1980 },
-		{ label: "WALL·E", year: 2008 },
-		{ label: "American Beauty", year: 1999 },
-		{ label: "The Dark Knight Rises", year: 2012 },
-		{ label: "Princess Mononoke", year: 1997 },
-		{ label: "Aliens", year: 1986 },
-		{ label: "Oldboy", year: 2003 },
-		{ label: "Once Upon a Time in America", year: 1984 },
-		{ label: "Witness for the Prosecution", year: 1957 },
-		{ label: "Das Boot", year: 1981 },
-		{ label: "Citizen Kane", year: 1941 },
-		{ label: "North by Northwest", year: 1959 },
-		{ label: "Vertigo", year: 1958 },
-		{
-			label: "Star Wars: Episode VI - Return of the Jedi",
-			year: 1983,
-		},
-		{ label: "Reservoir Dogs", year: 1992 },
-		{ label: "Braveheart", year: 1995 },
-		{ label: "M", year: 1931 },
-		{ label: "Requiem for a Dream", year: 2000 },
-		{ label: "Amélie", year: 2001 },
-		{ label: "A Clockwork Orange", year: 1971 },
-		{ label: "Like Stars on Earth", year: 2007 },
-		{ label: "Taxi Driver", year: 1976 },
-		{ label: "Lawrence of Arabia", year: 1962 },
-		{ label: "Double Indemnity", year: 1944 },
-		{
-			label: "Eternal Sunshine of the Spotless Mind",
-			year: 2004,
-		},
-		{ label: "Amadeus", year: 1984 },
-		{ label: "To Kill a Mockingbird", year: 1962 },
-		{ label: "Toy Story 3", year: 2010 },
-		{ label: "Logan", year: 2017 },
-		{ label: "Full Metal Jacket", year: 1987 },
-		{ label: "Dangal", year: 2016 },
-		{ label: "The Sting", year: 1973 },
-		{ label: "2001: A Space Odyssey", year: 1968 },
-		{ label: "Singin' in the Rain", year: 1952 },
-		{ label: "Toy Story", year: 1995 },
-		{ label: "Bicycle Thieves", year: 1948 },
-		{ label: "The Kid", year: 1921 },
-		{ label: "Inglourious Basterds", year: 2009 },
-		{ label: "Snatch", year: 2000 },
-		{ label: "3 Idiots", year: 2009 },
-		{ label: "Monty Python and the Holy Grail", year: 1975 },
-	];
+	useEffect(() => {
+		setMenu({
+			...menu,
+			thanh_phan: menuElements,
+			calo: calCaloTotal(),
+		});
+	}, [menuElements]);
+
+	const foodsDisplay = foodData.map((item, index) => {
+		return {
+			label: item.ten,
+			id: item["_id"],
+			calo: item.calo,
+		};
+	});
+	const calCaloTotal = () => {
+		let caloTotal = 0;
+		menuElements.forEach((item) => {
+			caloTotal += (item.calo / 100) * item.so_luong;
+		});
+		return Math.floor(caloTotal);
+	};
 	return (
 		<div className={cx("wrapper")}>
 			<div className={cx("header")}>
@@ -160,6 +70,7 @@ function FoodList() {
 					</Button>
 				</div>
 			</div>
+			<hr />
 			<div className={cx("wrapper-input")}>
 				<h2>Tên thực đơn</h2>
 				<TextField
@@ -168,20 +79,37 @@ function FoodList() {
 					variant="outlined"
 					size="small"
 					sx={{ marginLeft: 8 }}
+					onChange={(e) => {
+						setMenu({
+							...menu,
+							ten: e.target.value,
+						});
+					}}
 				/>
 			</div>
+			<hr />
 			<div className={cx("wrapper-input")}>
 				<h2>Chọn thực phẩm</h2>
 				<Autocomplete
 					size="small"
 					disablePortal
 					id="combo-box-demo"
-					options={top100Films}
+					options={foodsDisplay}
+					isOptionEqualToValue={(option, value) =>
+						option.id === value.id
+					}
 					sx={{ width: 300 }}
 					renderInput={(params) => (
 						<TextField {...params} label="Thực phẩm" />
 					)}
-					onChange={(event, value) => console.log(value)}
+					onChange={(event, value) =>
+						setMenuElement({
+							...menuElement,
+							thuc_pham: value?.id,
+							ten: value.label,
+							calo: value.calo,
+						})
+					}
 				/>
 			</div>
 			<div className={cx("wrapper-input")}>
@@ -193,26 +121,71 @@ function FoodList() {
 					variant="outlined"
 					size="small"
 					sx={{ marginLeft: 8 }}
+					onChange={(event) =>
+						setMenuElement({
+							...menuElement,
+							so_luong: +event.target.value,
+						})
+					}
 				/>
 			</div>
 			<div className={cx("wrapper-input")}>
-				<h2>Ghi chú</h2>
+				<h2>Kết quả</h2>
+				<Button
+					size="small"
+					startIcon={<LibraryAddIcon />}
+					onClick={() => {
+						const elementDuple=menuElements.find(i=>i.thuc_pham===menuElement.thuc_pham)
+						if(elementDuple){
+							const newMenuElement={...menuElement,so_luong: menuElement.so_luong+elementDuple.so_luong}
+							const newMenuElements= menuElements.filter(i=>i.thuc_pham!==elementDuple.thuc_pham)
+							setMenuElements([...newMenuElements, newMenuElement])
+						}
+						else{
+							setMenuElements([...menuElements, menuElement])
+						}
+					}}
+				>
+					Thêm thành phần
+				</Button>
+			</div>
+			<div>
+				{menuElements.map((item) => {
+					return (
+						<div>
+							<Button
+								size="small"
+								startIcon={<HighlightOffIcon />}
+								onClick={() => {
+									const newMenuElements= menuElements.filter(i=>i.thuc_pham!==item.thuc_pham)
+									setMenuElements(newMenuElements)
+								}}
+							/>	
+							{item?.ten} {item?.so_luong}g
+						</div>
+					);
+				})}
+			</div>
+			<hr />
+			<div className={cx("wrapper-input")}>
+				<h2>Mô tả</h2>
 				<TextField
 					id="outlined-basic"
 					multiline
 					rows={4}
-					label="Ghi chú"
+					label="Mô tả"
 					variant="outlined"
 					size="small"
-					sx={{ marginLeft: 8 , width:500}}
+					sx={{ marginLeft: 8, width: 500 }}
+					onChange={(e) => {
+						setMenu({
+							...menu,
+							mo_ta: e.target.value,
+						});
+					}}
 				/>
 			</div>
-			<h2>Kết quả</h2>
-			<ul>
-				<li>Thịt heo 500g</li>
-				<li>Cải 200g</li>
-			</ul>
-			<h2>Tổng calo: [tong calo]</h2>
+			<h2>Tổng calo: {menu.calo}</h2>
 		</div>
 	);
 }

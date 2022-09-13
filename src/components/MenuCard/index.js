@@ -81,6 +81,7 @@ export default function MenuCard({data}) {
 					<Typography gutterBottom variant="h5" component="div">
 						{data.ten}
 					</Typography>
+					<h3>Calo: {data.calo}</h3>
 					<Typography
 						variant="body2"
 						color="text.secondary"

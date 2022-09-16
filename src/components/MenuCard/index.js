@@ -15,16 +15,32 @@ import DatePicker from "react-date-picker";
 import { useNavigate } from "react-router-dom";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import MenuService from "../../services/menu.service";
+import StatisticService from "../../services/statistic.module";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import styles from "./MenuCard.module.css";
-const menuService= new MenuService()
+const menuService = new MenuService();
+const statisticService = new StatisticService();
 const cx = classNames.bind(styles);
-export default function MenuCard({ data, deleteAble }) {
+export default function MenuCard({ data, deleteAble, setReload }) {
 	const navigate = useNavigate();
+	const today=(new Date()).toDateString()
 	const [open, setOpen] = useState(false);
-	const [dateSelected, setDateSelected] = useState(new Date());
+	const [dateSelected, setDateSelected] = useState(new Date(today));
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
+	const handleSubmit=()=>{
+		statisticService.add({
+			ngay: dateSelected,
+			idThucDon: data['_id']
+		})
+		.then(result=>{
+			console.log(result);
+			toast.success("Đã thêm thành công");
+			handleClose()
+		})
+	}
 	const modalStyle = {
 		position: "absolute",
 		top: "50%",
@@ -40,7 +56,6 @@ export default function MenuCard({ data, deleteAble }) {
 		flexDirection: "column",
 		gap: 2,
 	};
-
 	return (
 		<>
 			<Modal
@@ -66,7 +81,8 @@ export default function MenuCard({ data, deleteAble }) {
 						size="small"
 						startIcon={<LibraryAddIcon />}
 						variant={"contained"}
-						onClick={handleClose}
+						onClick={handleSubmit}
+						disabled={dateSelected===null}
 					>
 						Xác nhận
 					</Button>
@@ -98,13 +114,19 @@ export default function MenuCard({ data, deleteAble }) {
 							size="small"
 							startIcon={<HighlightOffIcon />}
 							onClick={() => {
-								menuService.delete(data["_id"])
+								menuService.delete(data["_id"]).then(() => {
+									toast.success("Đã xóa thành công");
+									setReload(true);
+									console.log(1);
+								});
 							}}
 							color={"error"}
 						>
 							Xóa
 						</Button>
-					):''}
+					) : (
+						""
+					)}
 					<Button
 						size="small"
 						startIcon={<SearchIcon />}

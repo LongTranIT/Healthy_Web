@@ -10,17 +10,18 @@ import FoodService from "../../services/food.service";
 import MenuDetailService from "../../services/menuDetail.service";
 import MenuService from "../../services/menu.service";
 import MenuTypeService from "../../services/menuType.service";
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const cx = classNames.bind(styles);
 const foodService = new FoodService();
-const menuDetailService=  new MenuDetailService()
-const menuService=  new MenuService()
-const menuTypeService =new MenuTypeService()
+const menuDetailService = new MenuDetailService();
+const menuService = new MenuService();
+const menuTypeService = new MenuTypeService();
 
 function FoodList() {
-	const navigate= useNavigate()
+	const navigate = useNavigate();
 	const [open, setOpen] = useState(false);
 	const [dateSelected, setDateSelected] = useState(new Date());
 	const [foodData, setFoodData] = useState([]);
@@ -45,7 +46,7 @@ function FoodList() {
 
 	const foodsDisplay = foodData.map((item, index) => {
 		return {
-			label: item.ten +"    -   "+ item.calo +" Kcal",
+			label: item.ten + "    -   " + item.calo + " Kcal",
 			id: item["_id"],
 			calo: item.calo,
 		};
@@ -58,24 +59,29 @@ function FoodList() {
 		return Math.floor(caloTotal);
 	};
 
-	const handleAddMenu=()=>{
-		Promise.all(menuElements.map(item=>menuDetailService.add({
-			thuc_pham: item.thuc_pham,
-			so_luong: item.so_luong
-		})))
-		.then(async(results)=>{
-			const thanh_phan=results.map(item=>item['_id'])
-			const newMenu=await menuService.add({
+	const handleAddMenu = () => {
+		Promise.all(
+			menuElements.map((item) =>
+				menuDetailService.add({
+					thuc_pham: item.thuc_pham,
+					so_luong: item.so_luong,
+				})
+			)
+		).then(async (results) => {
+			const thanh_phan = results.map((item) => item["_id"]);
+			const newMenu = await menuService.add({
 				ten: menu.ten,
 				thanh_phan,
 				mo_ta: menu.mo_ta,
 				calo: menu.calo,
-				hinh: 'https://monhuenhalam.com/wp-content/themes/ntna076/images/icon_256-.png'
-			})
-			menuTypeService.addMenu({idThucDon: newMenu['_id']})
-			navigate('/menu')
-		})
-	}
+				hinh: "https://monhuenhalam.com/wp-content/themes/ntna076/images/icon_256-.png",
+			});
+			menuTypeService.addMenu({ idThucDon: newMenu["_id"] }).then(() => {
+				toast.success("Đã thêm thành công");
+				navigate("/menu");
+			});
+		});
+	};
 
 	return (
 		<div className={cx("wrapper")}>
@@ -163,14 +169,25 @@ function FoodList() {
 					size="small"
 					startIcon={<LibraryAddIcon />}
 					onClick={() => {
-						const elementDuple=menuElements.find(i=>i.thuc_pham===menuElement.thuc_pham)
-						if(elementDuple){
-							const newMenuElement={...menuElement,so_luong: menuElement.so_luong+elementDuple.so_luong}
-							const newMenuElements= menuElements.filter(i=>i.thuc_pham!==elementDuple.thuc_pham)
-							setMenuElements([...newMenuElements, newMenuElement])
-						}
-						else{
-							setMenuElements([...menuElements, menuElement])
+						const elementDuple = menuElements.find(
+							(i) => i.thuc_pham === menuElement.thuc_pham
+						);
+						if (elementDuple) {
+							const newMenuElement = {
+								...menuElement,
+								so_luong:
+									menuElement.so_luong +
+									elementDuple.so_luong,
+							};
+							const newMenuElements = menuElements.filter(
+								(i) => i.thuc_pham !== elementDuple.thuc_pham
+							);
+							setMenuElements([
+								...newMenuElements,
+								newMenuElement,
+							]);
+						} else {
+							setMenuElements([...menuElements, menuElement]);
 						}
 					}}
 				>
@@ -185,10 +202,12 @@ function FoodList() {
 								size="small"
 								startIcon={<HighlightOffIcon />}
 								onClick={() => {
-									const newMenuElements= menuElements.filter(i=>i.thuc_pham!==item.thuc_pham)
-									setMenuElements(newMenuElements)
+									const newMenuElements = menuElements.filter(
+										(i) => i.thuc_pham !== item.thuc_pham
+									);
+									setMenuElements(newMenuElements);
 								}}
-							/>	
+							/>
 							{item?.ten} {item?.so_luong}g
 						</div>
 					);

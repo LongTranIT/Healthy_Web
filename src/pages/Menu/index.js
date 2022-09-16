@@ -18,6 +18,7 @@ const cx = classNames.bind(styles);
 const menuTypeService = new MenuTypeService();
 function Menu() {
 	const [menuTypes, setmenuTypes] = useState([]);
+	const [reload, setReload] = useState(false);
 	useEffect(() => {
 		const initData = async () => {
 			const menus = await menuTypeService.getAll();
@@ -25,8 +26,8 @@ function Menu() {
 			setTabIndex(menus[0]['_id'])
 		};
 		initData();
-	}, []);
-
+		setReload(false)
+	}, [reload]);
 	const navigate = useNavigate();
 	const [tabIndex, setTabIndex] = useState();
 
@@ -56,10 +57,10 @@ function Menu() {
 						<TabPanel value={type["_id"]} key={type["_id"]}>
 							<h3>{type.mo_ta}</h3>
 							<Grid container spacing={2}>
-								{type.thuc_don.map((menu) => {
+								{type.thuc_don.reverse().map((menu) => {
 									return (
 										<Grid item xs={4} key={menu['_id']}>
-											<MenuCard data={menu} deleteAble={type.ten==='Thực đơn tự tạo'}/>
+											<MenuCard data={menu} deleteAble={type.ten==='Thực đơn tự tạo'} setReload={setReload}/>
 										</Grid>
 									);
 								})}

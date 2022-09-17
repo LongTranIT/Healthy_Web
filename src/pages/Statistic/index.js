@@ -2,26 +2,33 @@ import { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 import DatePicker from "react-date-picker";
 import classNames from "classnames/bind";
+import { toast } from "react-toastify";
 
 import MenuCard from "../../components/MenuCard";
 import styles from "./Statistic.module.css";
 import StatisticService from "../../services/statistic.module";
 
+
 const cx = classNames.bind(styles);
 const statisticService = new StatisticService();
 function Statistic() {
 	const [statisticData, setStatisticData] = useState();
-	const [dateSelected, setDateSelected] = useState(new Date());
+	const today=(new Date()).toDateString()
+	const [dateSelected, setDateSelected] = useState(new Date(today));
 
 	useEffect(() => {
 		const initData = async () => {
-			const statistic = await statisticService.getById("62fa6262ac9f8e5c52b465ff");
-			setStatisticData(statistic);
-			setDateSelected(new Date(statistic?.ngay));
+			try{
+				const statistic = await statisticService.getByDate(dateSelected.toISOString());
+				setStatisticData(statistic);
+			}
+			catch(ex){
+				setStatisticData([])
+				toast.error('Không có thống kê cho ngày này!');
+			}
 		};
 		initData();
-	}, []);
-	console.log(dateSelected);
+	}, [dateSelected]);
 
 	return (
 		<div className={cx("wrapper")}>
@@ -37,7 +44,7 @@ function Statistic() {
 			<h2>Lượng calo của thực đơn: {statisticData?.calo_nap} (Kcal)</h2>
 			<h2>Thực đơn</h2>
 			<Grid container spacing={2}>
-				{statisticData?.thuc_don.map((item) => {
+				{statisticData?.thuc_don?.map((item) => {
 					return (
 						<Grid item xs={4}>
 							<MenuCard data={item} key={item['_id']}/>

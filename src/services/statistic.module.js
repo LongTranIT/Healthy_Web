@@ -4,6 +4,10 @@ class StatisticService{
 		const result= await axios.get("https://healthy--api.herokuapp.com/thongke")
 		return result.data
 	}
+	getByDate=async(date)=>{
+		const result= await axios.get("https://healthy--api.herokuapp.com/thongke?ngay="+date)
+		return result.data
+	}
 	getById=async(id)=>{
 		const result= await axios.get("https://healthy--api.herokuapp.com/thongke/"+id)
 		return result.data

@@ -15,7 +15,7 @@ import DatePicker from "react-date-picker";
 import { useNavigate } from "react-router-dom";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import MenuService from "../../services/menu.service";
-import StatisticService from "../../services/statistic.module";
+import StatisticService from "../../services/statistic.service";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -23,7 +23,10 @@ import styles from "./MenuCard.module.css";
 const menuService = new MenuService();
 const statisticService = new StatisticService();
 const cx = classNames.bind(styles);
+const userInfo= JSON.parse(sessionStorage.getItem('userInfo'))
+
 export default function MenuCard({ data, deleteAble, setReload }) {
+	console.log(userInfo);
 	const navigate = useNavigate();
 	const today=(new Date()).toDateString()
 	const [open, setOpen] = useState(false);
@@ -33,14 +36,16 @@ export default function MenuCard({ data, deleteAble, setReload }) {
 	const handleSubmit=()=>{
 		statisticService.add({
 			ngay: dateSelected,
-			idThucDon: data['_id']
+			idThucDon: data['_id'],
+			idNguoiDung: userInfo['_id']
 		})
 		.then(result=>{
-			console.log(result);
 			toast.success("Đã thêm thành công");
 			handleClose()
 		})
 	}
+	console.log(userInfo['_id']);
+
 	const modalStyle = {
 		position: "absolute",
 		top: "50%",

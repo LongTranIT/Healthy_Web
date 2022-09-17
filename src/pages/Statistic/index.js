@@ -6,12 +6,13 @@ import { toast } from "react-toastify";
 
 import MenuCard from "../../components/MenuCard";
 import styles from "./Statistic.module.css";
-import StatisticService from "../../services/statistic.module";
+import StatisticService from "../../services/statistic.service";
 
 
 const cx = classNames.bind(styles);
 const statisticService = new StatisticService();
 function Statistic() {
+	const userInfo= JSON.parse(sessionStorage.getItem('userInfo'))
 	const [statisticData, setStatisticData] = useState();
 	const today=(new Date()).toDateString()
 	const [dateSelected, setDateSelected] = useState(new Date(today));
@@ -19,7 +20,10 @@ function Statistic() {
 	useEffect(() => {
 		const initData = async () => {
 			try{
-				const statistic = await statisticService.getByDate(dateSelected.toISOString());
+				const statistic = await statisticService.getByDate({
+					idNguoiDung: userInfo['_id'],
+					ngay: dateSelected.toISOString()
+				});
 				setStatisticData(statistic);
 			}
 			catch(ex){

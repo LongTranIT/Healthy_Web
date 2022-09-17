@@ -17,11 +17,12 @@ import MenuTypeService from "../../services/menuType.service";
 const cx = classNames.bind(styles);
 const menuTypeService = new MenuTypeService();
 function Menu() {
+	const userInfo= JSON.parse(sessionStorage.getItem('userInfo'))
 	const [menuTypes, setmenuTypes] = useState([]);
 	const [reload, setReload] = useState(false);
 	useEffect(() => {
 		const initData = async () => {
-			const menus = await menuTypeService.getAll();
+			const menus = await menuTypeService.getAll(userInfo['_id']);
 			setmenuTypes(menus);
 			setTabIndex(menus[0]['_id'])
 		};

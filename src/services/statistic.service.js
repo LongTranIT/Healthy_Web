@@ -15,7 +15,7 @@ class StatisticService{
 		return result.data
 	}
 	add=async(data)=>{
-		const result= await axios.post("https://healthy--api.herokuapp.com/thongke/",data)
+		const result= await axios.post("http://localhost:3000/thongke/",data)
 		return result.data
 	}
 }

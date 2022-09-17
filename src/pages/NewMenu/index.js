@@ -21,6 +21,7 @@ const menuService = new MenuService();
 const menuTypeService = new MenuTypeService();
 
 function FoodList() {
+	const userInfo= JSON.parse(sessionStorage.getItem('userInfo'))
 	const navigate = useNavigate();
 	const [open, setOpen] = useState(false);
 	const [dateSelected, setDateSelected] = useState(new Date());
@@ -76,7 +77,7 @@ function FoodList() {
 				calo: menu.calo,
 				hinh: "https://monhuenhalam.com/wp-content/themes/ntna076/images/icon_256-.png",
 			});
-			menuTypeService.addMenu({ idThucDon: newMenu["_id"] }).then(() => {
+			menuTypeService.addMenu({ idThucDon: newMenu["_id"], idNguoiDung: userInfo['_id'] }).then(() => {
 				toast.success("Đã thêm thành công");
 				navigate("/menu");
 			});

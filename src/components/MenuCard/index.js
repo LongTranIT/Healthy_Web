@@ -26,7 +26,6 @@ const cx = classNames.bind(styles);
 const userInfo= JSON.parse(sessionStorage.getItem('userInfo'))
 
 export default function MenuCard({ data, deleteAble, setReload }) {
-	console.log(userInfo);
 	const navigate = useNavigate();
 	const today=(new Date()).toDateString()
 	const [open, setOpen] = useState(false);
@@ -44,7 +43,6 @@ export default function MenuCard({ data, deleteAble, setReload }) {
 			handleClose()
 		})
 	}
-	console.log(userInfo['_id']);
 
 	const modalStyle = {
 		position: "absolute",
@@ -122,7 +120,6 @@ export default function MenuCard({ data, deleteAble, setReload }) {
 								menuService.delete(data["_id"]).then(() => {
 									toast.success("Đã xóa thành công");
 									setReload(true);
-									console.log(1);
 								});
 							}}
 							color={"error"}

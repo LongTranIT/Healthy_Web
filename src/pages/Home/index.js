@@ -11,8 +11,10 @@ import { Typography } from "@mui/material";
 
 import UserService from "../../services/user.service";
 import AccountService from "../../services/account.service";
+import MenuTypeService from "../../services/menuType.service";
 const userService= new UserService()
 const accountService= new AccountService()
+const menuTypeService= new MenuTypeService()
 const cx = classNames.bind(styles);
 
 function Home() {
@@ -51,9 +53,16 @@ function Home() {
 			calo_muc_tieu: 0,
 			tai_khoan: accountId
 		})
+		menuTypeService.add({
+			ten: 'Thực đơn tự tạo',
+			mo_ta: 'Do người dùng tự tạo',
+			thuc_don:[],
+			nguoi_xem: userCreated['_id']
+		})
 		const user=await accountService.login(account.username,account.password)
 		if(user.ho_ten){
 			alert("Tạo tài khoản thành công")
+
 			sessionStorage.setItem('userInfo', JSON.stringify(user))
 			window.location.reload()
 		}

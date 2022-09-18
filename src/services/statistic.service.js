@@ -5,8 +5,14 @@ class StatisticService{
 		return result.data
 	}
 	getByDate=async(data)=>{
-		const result= await axios.get("https://healthy--api.herokuapp.com/thongke/",{
+		const result= await axios.get("https://healthy--api.herokuapp.com/thongke",{
 			params:data
+		})
+		return result.data
+	}
+	getDates=async(idNguoiDung)=>{
+		const result= await axios.get("https://healthy--api.herokuapp.com/thongke/date",{
+			params:idNguoiDung
 		})
 		return result.data
 	}
@@ -15,7 +21,7 @@ class StatisticService{
 		return result.data
 	}
 	add=async(data)=>{
-		const result= await axios.post("http://localhost:3000/thongke/",data)
+		const result= await axios.post("https://healthy--api.herokuapp.com/thongke/",data)
 		return result.data
 	}
 }

@@ -9,6 +9,7 @@
 	align-items: center;
 }
 
-.chart-box{
-	/* min-height: 400px; */
+.form-group{
+	display: flex;
+	align-items: center;
 }

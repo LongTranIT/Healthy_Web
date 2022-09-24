@@ -29,8 +29,8 @@ function Statistic() {
 						onChange={handleChange}
 						aria-label="basic tabs example"
 					>
-						<Tab label="Item One" key={1} />
-						<Tab label="Item Two" key={2} />
+						<Tab label="Số liệu" key={1} />
+						<Tab label="Biểu đồ" key={2} />
 					</TabList>
 				</Box>
 				<TabPanel value={0}>

@@ -20,6 +20,18 @@ class StatisticService{
 		const result= await axios.get("https://healthy--api.herokuapp.com/thongke/"+id)
 		return result.data
 	}
+	getByRange=async(data)=>{
+		const result= await axios.get("http://localhost:3000/thongke/",{
+			params:data
+		})
+		return result.data
+	}
+	updateWeight=async(id,weight)=>{
+		const result= await axios.patch("http://localhost:3000/thongke/"+id,{
+			can_nang: weight
+		})
+		return result.data
+	}
 	add=async(data)=>{
 		const result= await axios.post("https://healthy--api.herokuapp.com/thongke/",data)
 		return result.data

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import classNames from "classnames/bind";
 import MenuCard from "../../../../components/MenuCard";
 import styles from "./../../Statistic.module.css";

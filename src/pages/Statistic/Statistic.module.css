@@ -8,3 +8,7 @@
 	flex-direction: column;
 	align-items: center;
 }
+
+.chart-box{
+	/* min-height: 400px; */
+}

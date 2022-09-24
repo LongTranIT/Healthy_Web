@@ -9,6 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import StatisticOneDay from "./components/StatisticOneDay";
 import StatisticRange from "./components/StatisticRange";
 import styles from "./Statistic.module.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 const cx = classNames.bind(styles);
 function Statistic() {
@@ -36,7 +37,7 @@ function Statistic() {
 					<StatisticOneDay/>
 				</TabPanel>
 				<TabPanel value={1}>
-					<StatisticRange/>
+					<StatisticRange/> 
 				</TabPanel>
 			</TabContext>
 		</div>

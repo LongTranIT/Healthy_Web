@@ -18,31 +18,43 @@ function StatisticOneDay() {
 	const [dates, setDates] = useState([]);
 	const [weight, setWeight] = useState(0);
 
-	useEffect(() => {
-		const initData = async () => {
-			toast.dismiss();
-			const datesGetted = await statisticService.getDates({
+	const initData = async () => {
+		toast.dismiss();
+		const datesGetted = await statisticService.getDates({
+			idNguoiDung: userInfo["_id"],
+		});
+		setDates(datesGetted);
+		try {
+			const statistic = await statisticService.getByDate({
 				idNguoiDung: userInfo["_id"],
+				ngay: dateSelected.toISOString(),
 			});
-			setDates(datesGetted);
-			try {
-				const statistic = await statisticService.getByDate({
-					idNguoiDung: userInfo["_id"],
-					ngay: dateSelected.toISOString(),
-				});
-				setWeight(statistic?.can_nang)
-				toast.success("Đã tìm thấy thống kê!");
-				setStatisticData(statistic);
-			} catch (ex) {
-				setStatisticData([]);
-				toast.error("Không có thống kê cho ngày này!");
-			}
-		};
+			setWeight(statistic?.can_nang);
+			toast.success("Đã tìm thấy thống kê!");
+			setStatisticData(statistic);
+		} catch (ex) {
+			setStatisticData([]);
+			toast.error("Không có thống kê cho ngày này!");
+		}
+	};
+	useEffect(() => {
 		initData();
 	}, [dateSelected]);
-	const handleUpdateWeight= async()=>{
+	const handleUpdateWeight = async () => {
 		try {
-			await statisticService.updateWeight(statisticData['_id'],weight);
+			await statisticService.updateWeight(statisticData["_id"], weight);
+			toast.success("Đã cập nhật thành công!");
+		} catch (ex) {
+			setStatisticData([]);
+			toast.error("Cập nhật có lỗi!");
+		}
+	};
+
+	const handleDeleteMenu= async(idMenu)=>{
+		try {
+			const result=await statisticService.deleteMenu(statisticData["_id"], idMenu);
+			await initData()
+			toast.dismiss();
 			toast.success("Đã cập nhật thành công!");
 		} catch (ex) {
 			setStatisticData([]);
@@ -67,7 +79,7 @@ function StatisticOneDay() {
 					type={"number"}
 					style={{ marginLeft: "40px" }}
 					value={weight}
-					onChange={e=>setWeight(e.target.value)}
+					onChange={(e) => setWeight(e.target.value)}
 				/>
 				<h2>Kg</h2>
 				<Button
@@ -91,6 +103,12 @@ function StatisticOneDay() {
 				{statisticData?.thuc_don?.map((item) => {
 					return (
 						<Grid item xs={4}>
+							<Button
+								variant="outlined"
+								onClick={()=>{handleDeleteMenu(item["_id"])}}
+							>
+								X
+							</Button>
 							<MenuCard data={item} key={item["_id"]} />
 						</Grid>
 					);

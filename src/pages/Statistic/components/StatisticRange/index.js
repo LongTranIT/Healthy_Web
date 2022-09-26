@@ -33,11 +33,7 @@ ChartJS.register(
 	plugins: {
 	  legend: {
 		position: 'top' ,
-	  },
-	  title: {
-		display: true,
-		text: 'Bảng thống kê theo calo',
-	  },
+	  }
 	},
   };
   export const optionWeight = {
@@ -45,10 +41,6 @@ ChartJS.register(
 	plugins: {
 	  legend: {
 		position: 'top' ,
-	  },
-	  title: {
-		display: true,
-		text: 'Bảng thống kê theo cân nặng',
 	  },
 	},
   };
@@ -123,6 +115,11 @@ function StatisticRange() {
 			borderColor: 'rgb(53, 162, 235)',
 			backgroundColor: 'rgba(53, 162, 235, 0.5)'
 		  },
+		  {
+			label: '',
+			data: statisticData.map(item=>0),
+			borderColor: '#ccc',
+		  },
 		],
 	  };
 	return (
@@ -141,7 +138,11 @@ function StatisticRange() {
 							(item) => new Date(item)
 						)}
 					/>
+					<br/>
+					<h2>Bảng thống kê theo calo</h2>
 					<Line options={optionCalo} data={dataCalo}/>
+					<br/>
+					<h2>Bảng thống kê theo cân nặng</h2>
 					<Line options={optionWeight} data={dataWeight}/>
 			</div>
 		</>

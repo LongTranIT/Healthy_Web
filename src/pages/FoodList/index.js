@@ -19,14 +19,9 @@ function FoodList() {
 	},[])
 	const columns = [
 		{ field: "stt", headerName: "STT", width: 150 },
-		// {
-		// 	field: "loai_thuc_pham",
-		// 	headerName: "Loại thực phầm",
-		// 	width: 250,
-		// },
 		{
-			field: "_id",
-			headerName: "ID",
+			field: "loai_thuc_pham",
+			headerName: "Loại thực phầm",
 			width: 250,
 		},
 		{

@@ -5,63 +5,59 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import { Box } from "@mui/system";
 import classNames from "classnames/bind";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import styles from "./Exercise.module.css";
 import ExerciseCard from "../../components/ExerciseCard";
+import ExerciseService from "../../services/exercise.service";
 
 const cx = classNames.bind(styles);
+const exerciseService = new ExerciseService();
 function Menu() {
 	const [tabIndex, setTabIndex] = useState("1");
+	const [exerciseData, setExerciseData] = useState([]);
 
 	const handleChange = (event, newValue) => {
 		setTabIndex(newValue);
 	};
+
+	useEffect(() => {
+		const initData = async () => {
+			const exercise = await exerciseService.getAll();
+			setExerciseData(exercise);
+			setTabIndex(exercise[0]['_id'])
+		};
+		initData();
+	}, []);
 	return (
 		<div className={cx("wrapper")}>
 			<h1 className={cx("header")}>Tập thể dục</h1>
 			<TabContext value={tabIndex}>
 				<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-					<TabList
-						onChange={handleChange}
-					>
-						<Tab label="Bài tập toàn thân" value="1" />
-						<Tab label="Bài tập bụng" value="2" />
+					<TabList onChange={handleChange}>
+						{exerciseData.map((item) => {
+							return (
+								<Tab label={item?.ten} value={item["_id"]} />
+							);
+						})}
 					</TabList>
 				</Box>
-				<TabPanel value="1">
-					<Grid container spacing={2}>
-						<Grid item xs={4}>
-							<ExerciseCard />
-						</Grid>
-						<Grid item xs={4}>
-							<ExerciseCard />
-						</Grid>
-						<Grid item xs={4}>
-							<ExerciseCard />
-						</Grid>
-						<Grid item xs={4}>
-							<ExerciseCard />
-						</Grid>
-						<Grid item xs={4}>
-							<ExerciseCard />
-						</Grid>
-						<Grid item xs={4}>
-							<ExerciseCard />
-						</Grid>
-					</Grid>
-				</TabPanel>
-				<TabPanel value="2">
-					<Grid container spacing={2}>
-						<Grid item xs={4}>
-							<ExerciseCard />
-						</Grid>
-						<Grid item xs={4}>
-							<ExerciseCard />
-						</Grid>
-						
-					</Grid>
-				</TabPanel>
+				{exerciseData.map((exercise) => {
+					return (
+						<TabPanel value={exercise["_id"]}>
+							<Grid container spacing={2}>
+								{exercise.bai_tap.map((item) => {
+									return (
+										<Grid item xs={4}>
+											<ExerciseCard title={item.ten} img={item.hinh} id={item['_id']}/>
+										</Grid>
+									);
+								})}
+							</Grid>
+						</TabPanel>
+					);
+				})}
+
 				
 			</TabContext>
 		</div>

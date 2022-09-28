@@ -5,29 +5,27 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import SearchIcon from "@mui/icons-material/Search";
-import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import classNames from "classnames/bind";
 import { useNavigate } from "react-router-dom";
 
 import styles from "./ExerciseCard.module.css";
 
-
 const cx = classNames.bind(styles);
-export default function MenuCard() {
-	const navigate= useNavigate()
+export default function ExerciseCard({title,img, id}) {
+	const navigate = useNavigate();
 	return (
 		<>
-			
 			<Card>
 				<CardMedia
 					component="img"
 					height="300"
-					image="https://wheyshop.vn/wp-content/uploads/2020/08/4-phut-de-co-bung-6-mui-tai-nha-cho-nam-600x314-1.jpg"
+					image={img}
 					alt="green iguana"
 				/>
 				<CardContent>
 					<Typography gutterBottom variant="h5" component="div">
-						Người mới bắt đầu
+						{title}
 					</Typography>
 					<Typography
 						variant="body2"
@@ -38,10 +36,12 @@ export default function MenuCard() {
 					</Typography>
 				</CardContent>
 				<CardActions className={cx("action-group")}>
-					<Button 
-					size="small" 
-					startIcon={<SearchIcon />}
-					onClick={()=>{navigate('/exercisedetail')}}
+					<Button
+						size="small"
+						startIcon={<SearchIcon />}
+						onClick={() => {
+							navigate("/exercisedetail/"+id);
+						}}
 					>
 						Xem
 					</Button>
@@ -49,7 +49,9 @@ export default function MenuCard() {
 						size="small"
 						startIcon={<TaskAltIcon />}
 						variant={"contained"}
-						onClick={()=>{navigate('/exercisedoing')}}
+						onClick={() => {
+							navigate("/exercisedoing/"+id);
+						}}
 					>
 						Tập luyện
 					</Button>

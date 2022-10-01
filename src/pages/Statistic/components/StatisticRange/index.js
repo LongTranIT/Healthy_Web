@@ -128,8 +128,8 @@ function StatisticRange() {
 		  },
 		],
 	  };
-	return (
-		<>
+	  return (
+		  <>
 			<div className={cx("header")}>
 					<DatePicker
 						selectsRange={true}

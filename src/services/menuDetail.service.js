@@ -1,15 +1,15 @@
 import axios from "axios"
 class MenuDetailService{
 	getAll=async()=>{
-		const result= await axios.get("https://healthy--api.herokuapp.com/chitietthucdon")
+		const result= await axios.get(`${process.env.REACT_APP_BASE_URL}/chitietthucdon`)
 		return result.data
 	}
 	getById=async(id)=>{
-		const result= await axios.get("https://healthy--api.herokuapp.com/chitietthucdon/"+id)
+		const result= await axios.get(`${process.env.REACT_APP_BASE_URL}/chitietthucdon/${id}`)
 		return result.data
 	}
 	add=async(data)=>{
-		const result= await axios.post("https://healthy--api.herokuapp.com/chitietthucdon/",data)
+		const result= await axios.post(`${process.env.REACT_APP_BASE_URL}/chitietthucdon/`,data)
 		return result.data
 	}
 }

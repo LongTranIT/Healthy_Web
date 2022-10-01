@@ -21,8 +21,12 @@ const publicRoutes = [
     {path: '/statistic', component: Statistic},
     {path: '/newMenu', component: NewMenu},
     {path: '/exercise', component: Exercise},
-    {path: '/exercisedetail', component: ExerciseDetail},
-    {path: '/exercisedoing', component: ExerciseDoing},
+    {path: '/exercisedetail', component: ExerciseDetail,children:[
+        {path: ':exerciseId',component: ExerciseDetail}
+    ]},
+    {path: '/exercisedoing', component: ExerciseDoing,children:[
+        {path: ':exerciseId',component: ExerciseDoing}
+    ]},
     // {path: '/search', component: Search, layout: null},
     // {path: '/upload', component: Upload, layout: HeaderOnly},
 ]

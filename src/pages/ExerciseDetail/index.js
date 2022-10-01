@@ -1,14 +1,25 @@
-import Button from "@mui/material/Button";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { useState,useEffect } from "react";
+import { useParams } from "react-router-dom";
 import classNames from "classnames/bind";
 import styles from "./ExerciseDetail.module.css";
+import ExerciseService from "../../services/exercise.service";
 
+const exerciseService =new ExerciseService();
 const cx = classNames.bind(styles);
 function Menu() {
+	const {exerciseId}=useParams();
+	const [exercise,setExercise]=useState();
+	useEffect(() => {
+		const initData = async () => {
+			const ex = await exerciseService.getById(exerciseId);
+			setExercise(ex);
+		};
+		initData();
+	}, []);
 	return (
 		<>
 			<div className={cx("wrapper")}>
-				<h1 className={cx("title-page")}>Bụng cho người bắt đầu</h1>
+				<h1 className={cx("title-page")}>{exercise?.ten}</h1>
 				{/* <Button
 					size="small"
 					startIcon={<AddCircleIcon />}
@@ -18,41 +29,21 @@ function Menu() {
 					Thêm
 				</Button> */}
 				<img
-					src="https://wheyshop.vn/wp-content/uploads/2020/08/4-phut-de-co-bung-6-mui-tai-nha-cho-nam-600x314-1.jpg"
+					src={exercise?.hinh}
 					width={800}
 				/>
-				<div className={cx('exercise-item')}>
-					<h2>Vặn chéo</h2>
+				{exercise?.dong_tac?.map(item=>{
+					return (
+						<div className={cx('exercise-item')}>
+					<h2>{item?.ten}</h2>
 					<img
-						src="https://musclewiki.com/media/uploads/male-dumbbell-russian-twist-front.gif"
+						src={item?.hinh}
 						width={500}
 					/>
-					<p>Ngồi trên sàn và xoay người qua lại</p>
+					<p style={{whiteSpace: "pre-wrap"}}>{item?.mo_ta}</p>
 				</div>
-				<div className={cx('exercise-item')}>
-					<h2>Vặn chéo</h2>
-					<img
-						src="https://musclewiki.com/media/uploads/male-dumbbell-russian-twist-front.gif"
-						width={500}
-					/>
-					<p>Ngồi trên sàn và xoay người qua lại</p>
-				</div>
-				<div className={cx('exercise-item')}>
-					<h2>Vặn chéo</h2>
-					<img
-						src="https://musclewiki.com/media/uploads/male-dumbbell-russian-twist-front.gif"
-						width={500}
-					/>
-					<p>Ngồi trên sàn và xoay người qua lại</p>
-				</div>
-				<div className={cx('exercise-item')}>
-					<h2>Vặn chéo</h2>
-					<img
-						src="https://musclewiki.com/media/uploads/male-dumbbell-russian-twist-front.gif"
-						width={500}
-					/>
-					<p>Ngồi trên sàn và xoay người qua lại</p>
-				</div>
+					)
+				})}
 			</div>
 		</>
 	);

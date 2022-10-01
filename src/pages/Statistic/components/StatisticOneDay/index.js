@@ -6,6 +6,7 @@ import { Input, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import classNames from "classnames/bind";
 import MenuCard from "../../../../components/MenuCard";
+import ExerciseCard from "../../../../components/ExerciseCard";
 import styles from "./../../Statistic.module.css";
 import StatisticService from "../../../../services/statistic.service";
 const statisticService = new StatisticService();
@@ -50,17 +51,20 @@ function StatisticOneDay() {
 		}
 	};
 
-	const handleDeleteMenu= async(idMenu)=>{
+	const handleDeleteMenu = async (idMenu) => {
 		try {
-			const result=await statisticService.deleteMenu(statisticData["_id"], idMenu);
-			await initData()
+			const result = await statisticService.deleteMenu(
+				statisticData["_id"],
+				idMenu
+			);
+			await initData();
 			toast.dismiss();
 			toast.success("Đã cập nhật thành công!");
 		} catch (ex) {
 			setStatisticData([]);
 			toast.error("Cập nhật có lỗi!");
 		}
-	}
+	};
 	return (
 		<>
 			<div className={cx("header")}>
@@ -98,6 +102,7 @@ function StatisticOneDay() {
 
 			<h2>Lượng calo cơ thể cần: {userInfo.calo_muc_tieu} (Kcal)</h2>
 			<h2>Lượng calo của thực đơn: {statisticData?.calo_nap} (Kcal)</h2>
+			<h2>Lượng calo tiêu thụ do tập luyện: {statisticData?.calo_tieu} (Kcal)</h2>
 			<h2>Thực đơn</h2>
 			<Grid container spacing={2}>
 				{statisticData?.thuc_don?.map((item) => {
@@ -105,11 +110,27 @@ function StatisticOneDay() {
 						<Grid item xs={4}>
 							<Button
 								variant="outlined"
-								onClick={()=>{handleDeleteMenu(item["_id"])}}
+								onClick={() => {
+									handleDeleteMenu(item["_id"]);
+								}}
 							>
 								X
 							</Button>
 							<MenuCard data={item} key={item["_id"]} />
+						</Grid>
+					);
+				})}
+			</Grid>
+			<h2>Bài Tập</h2>
+			<Grid container spacing={2}>
+				{statisticData?.bai_tap.map((item) => {
+					return (
+						<Grid item xs={4}>
+							<ExerciseCard
+								title={item.ten}
+								img={item.hinh}
+								id={item["_id"]}
+							/>
 						</Grid>
 					);
 				})}

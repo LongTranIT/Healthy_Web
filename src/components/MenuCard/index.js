@@ -33,7 +33,7 @@ export default function MenuCard({ data, deleteAble, setReload }) {
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 	const handleSubmit=()=>{
-		statisticService.add({
+		statisticService.addMenu({
 			ngay: dateSelected,
 			idThucDon: data['_id'],
 			idNguoiDung: userInfo['_id']

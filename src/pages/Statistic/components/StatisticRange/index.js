@@ -111,7 +111,7 @@ function StatisticRange() {
 		datasets: [
 		  {
 			label: 'Cân nặng',
-			data: statisticData.map(item=>item.can_nang),
+			data: statisticData.map(item=>item.can_nang?item.can_nang:userInfo.can_nang),
 			borderColor: 'rgb(53, 162, 235)',
 			backgroundColor: 'rgba(53, 162, 235, 0.5)'
 		  },
@@ -139,10 +139,10 @@ function StatisticRange() {
 						)}
 					/>
 					<br/>
-					<h2>Bảng thống kê theo calo</h2>
+					<h2>Biểu đồ thống kê theo calo</h2>
 					<Line options={optionCalo} data={dataCalo}/>
 					<br/>
-					<h2>Bảng thống kê theo cân nặng</h2>
+					<h2>Biểu đồ thống kê theo cân nặng</h2>
 					<Line options={optionWeight} data={dataWeight}/>
 			</div>
 		</>

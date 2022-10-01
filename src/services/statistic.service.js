@@ -32,8 +32,8 @@ class StatisticService{
 		})
 		return result.data
 	}
-	add=async(data)=>{
-		const result= await axios.post("https://healthy--api.herokuapp.com/thongke/",data)
+	addMenu=async(data)=>{
+		const result= await axios.post("https://healthy--api.herokuapp.com/thongke/thucdon",data)
 		return result.data
 	}
 	deleteMenu= async(idStatistic,idMenu)=>{

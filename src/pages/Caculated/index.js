@@ -19,52 +19,52 @@ function Following() {
 		userInfo.chieu_cao,
 		userInfo.van_dong
 	);
-	const [caloSelected, setCaloSelected] = useState(0);
+	const [coefficient, setCoefficient] = useState(0);
 	return (
 		<>
 			<h1> Kết quả tính toán</h1>
 			<table>
 				<tbody>
 					<tr>
-						<th>Giảm cân</th>
-						<th>Giữ cân</th>
-						<th>Tăng cân</th>
+						<th>Giảm cân ({Math.floor(userInfo.can_nang * 0.9)} Kg)</th>
+						<th>Giữ cân ({Math.floor(userInfo.can_nang * 1)} Kg)</th>
+						<th>Tăng cân ({Math.floor(userInfo.can_nang * 1.1)} Kg)</th>
 					</tr>
 					<tr>
-						<td>{Math.floor(caloStandard * 0.8)}</td>
+						<td>{Math.floor(caloStandard * 0.9)}</td>
 						<td>{caloStandard}</td>
-						<td>{Math.floor(caloStandard * 1.2)}</td>
+						<td>{Math.floor(caloStandard * 1.1)}</td>
 					</tr>
 				</tbody>
 			</table>
 			<h3>Vui lòng chọn mục tiêu bạn muốn</h3>
 
 			<RadioGroup
-				value={caloSelected}
+				value={coefficient}
 				onChange={(e) => {
 					userInfo.calo_muc_tieu=e.target.value
 					sessionStorage.setItem('userInfo',JSON.stringify(userInfo));
-					setCaloSelected(e.target.value)
+					setCoefficient(e.target.value)
 				}}
 			>
 				<FormControlLabel
-					value={Math.floor(caloStandard * 0.8)}
+					value={0.9}
 					control={<Radio />}
-					label="Giảm cân"
+					label={"Giảm cân ("+Math.floor(userInfo.can_nang * 0.9)+ "Kg)"}
 				/>
 				<FormControlLabel
-					value={caloStandard}
+					value={1}
 					control={<Radio />}
-					label="Giữ cân"
+					label={"Giữ cân ("+Math.floor(userInfo.can_nang * 1)+ "Kg)"}
 				/>
 				<FormControlLabel
-					value={Math.floor(caloStandard * 1.2)}
+					value={1.1}
 					control={<Radio />}
-					label="Tăng cân"
+					label={"Tăng cân ("+Math.floor(userInfo.can_nang * 1.1)+ "Kg)"}
 				/>
 			</RadioGroup>
 			<i>
-				Lượng calo bạn cần hàng hàng là: <b>{caloSelected}</b>
+				Lượng calo bạn cần hàng hàng là: <b>{Math.floor(caloStandard * coefficient)}</b>
 			</i>
 			<br/>
 			<Button
@@ -73,11 +73,12 @@ function Following() {
 				variant={"contained"}
 				onClick={()=>{
 					userService.updateUser(userInfo['_id'],{
-						calo_muc_tieu: caloSelected
+						calo_muc_tieu: Math.floor(caloStandard * coefficient),
+						can_nang_muc_tieu:Math.floor(userInfo.can_nang * coefficient)
 					})
 					navigate('/menu')
 				}}
-				disabled={caloSelected===0}
+				disabled={coefficient===0}
 			>
 				Tạo thực đơn
 			</Button>

@@ -24,7 +24,6 @@ function FoodList() {
 	const userInfo= JSON.parse(sessionStorage.getItem('userInfo'))
 	const navigate = useNavigate();
 	const [open, setOpen] = useState(false);
-	const [dateSelected, setDateSelected] = useState(new Date());
 	const [foodData, setFoodData] = useState([]);
 	const [menu, setMenu] = useState({});
 	const [menuElements, setMenuElements] = useState([]);
@@ -89,12 +88,6 @@ function FoodList() {
 			<div className={cx("header")}>
 				<h1>Tạo thực đơn mới</h1>
 				<div className={cx("header-actions")}>
-					<h2>Ngày áp dụng</h2>
-					<DatePicker
-						onChange={setDateSelected}
-						value={dateSelected}
-						format="dd/MM/y"
-					/>
 					<Button
 						size="small"
 						startIcon={<LibraryAddIcon />}
@@ -124,7 +117,7 @@ function FoodList() {
 			</div>
 			<hr />
 			<div className={cx("wrapper-input")}>
-				<h2>Chọn thực phẩm</h2>
+				<h2>Chọn thực phẩm (Kcal/gam)</h2>
 				<Autocomplete
 					size="small"
 					disablePortal

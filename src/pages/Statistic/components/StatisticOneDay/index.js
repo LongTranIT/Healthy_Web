@@ -123,7 +123,7 @@ function StatisticOneDay() {
 			</Grid>
 			<h2>Bài Tập</h2>
 			<Grid container spacing={2}>
-				{statisticData?.bai_tap.map((item) => {
+				{statisticData?.bai_tap?.map((item) => {
 					return (
 						<Grid item xs={4}>
 							<ExerciseCard

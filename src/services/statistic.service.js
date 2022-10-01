@@ -36,6 +36,11 @@ class StatisticService{
 		const result= await axios.post("https://healthy--api.herokuapp.com/thongke/thucdon",data)
 		return result.data
 	}
+	addExercise=async(data)=>{
+		const result= await axios.post("https://healthy--api.herokuapp.com/thongke/baitap",data)
+		return result.data
+	}
+
 	deleteMenu= async(idStatistic,idMenu)=>{
 		const result= await axios.post("http://localhost:3000/thongke/deletemenu/"+idStatistic,{idMenu})
 		return result.data

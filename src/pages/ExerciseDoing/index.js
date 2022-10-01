@@ -11,12 +11,15 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Timer from "../../components/Timer"
+import Timer from "../../components/Timer";
 import ExerciseService from "../../services/exercise.service";
+import StatisticService from "../../services/statistic.service";
 
 const exerciseService = new ExerciseService();
+const statisticService = new StatisticService();
 const cx = classNames.bind(styles);
 function ExerciseDoing() {
+	const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
 	const navigate = useNavigate();
 	const { exerciseId } = useParams();
 	const [exercise, setExercise] = useState();
@@ -35,39 +38,36 @@ function ExerciseDoing() {
 		) : (
 			<CheckCircleOutlineIcon />
 		);
-	const handleNextStep=()=>{
+	const handleNextStep = () => {
 		if (currentStep < exercise?.dong_tac.length - 1) {
 			setCurrentStep(currentStep + 1);
 		} else {
-			toast.success("Đã hoàn thành bài tập!");
-			navigate("/statistic");
+			statisticService
+				.addExercise({
+					ngay: new Date(new Date().toDateString()),
+					idNguoiDung: userInfo["_id"],
+					idBaiTap: exerciseId,
+				})
+				.then(() => {
+					toast.success("Đã hoàn thành bài tập!");
+					navigate("/statistic");
+				});
 		}
-	}
+	};
 	return (
 		<>
 			<div className={cx("wrapper")}>
+				<h1 className={cx("title-page")}>Bắt đầu thử thách</h1>
 				<Button
 					size="small"
 					startIcon={iconButton}
 					variant={"outlined"}
-					
 				>
 					{currentStep < exercise?.dong_tac.length - 1
 						? "Động tác kế tiếp"
 						: "Hoàn thành"}
 				</Button>
-
-				<Timer expiryTimestampInSecond={6} onExpire={()=>{handleNextStep()}}/>
-				
-				<h1 className={cx("title-page")}>Bắt đầu thử thách</h1>
-				{/* <Button
-					size="small"
-					startIcon={<AddCircleIcon />}
-					variant={"contained"}
-					// onClick={handleOpen}
-				>
-					Thêm
-				</Button> */}
+				<br/>
 				<Box sx={{ width: "100%" }}>
 					<Stepper activeStep={currentStep} alternativeLabel>
 						{steps.map((label) => (
@@ -77,6 +77,13 @@ function ExerciseDoing() {
 						))}
 					</Stepper>
 				</Box>
+
+				<Timer
+					expiryTimestampInSecond={6}
+					onExpire={() => {
+						handleNextStep();
+					}}
+				/>
 				<div className={cx("exercise-item")}>
 					<h2>{exercise?.dong_tac[currentStep]?.ten}</h2>
 					<img

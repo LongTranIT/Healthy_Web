@@ -116,6 +116,12 @@ function StatisticRange() {
 			backgroundColor: 'rgba(53, 162, 235, 0.5)'
 		  },
 		  {
+			label: 'Cân nặng',
+			data: statisticData.map(item=>userInfo.can_nang_muc_tieu),
+			borderColor: '#5eba7d',
+			backgroundColor: 'rgba(53, 162, 235, 0.5)',
+		  },
+		  {
 			label: '',
 			data: statisticData.map(item=>0),
 			borderColor: '#ccc',

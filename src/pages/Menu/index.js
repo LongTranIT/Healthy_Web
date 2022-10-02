@@ -58,7 +58,7 @@ function Menu() {
 						<TabPanel value={type["_id"]} key={type["_id"]}>
 							<h3>{type.mo_ta}</h3>
 							<Grid container spacing={2}>
-								{type.thuc_don.reverse().map((menu) => {
+								{type.thuc_don.map((menu) => {
 									return (
 										<Grid item xs={4} key={menu['_id']}>
 											<MenuCard data={menu} deleteAble={type.ten==='Thực đơn tự tạo'} setReload={setReload}/>

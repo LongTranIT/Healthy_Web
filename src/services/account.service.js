@@ -6,7 +6,7 @@ class AccountService{
 	}
 	signUp=async(accountData)=>{
 		const result= await axios.post(`${process.env.REACT_APP_BASE_URL}/taikhoan`,accountData)
-		return result.dat
+		return result.data
 	}
 }
 

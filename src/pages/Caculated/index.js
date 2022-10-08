@@ -42,7 +42,7 @@ function Following() {
 			<RadioGroup
 				value={coefficient}
 				onChange={(e) => {
-					userInfo.calo_muc_tieu=e.target.value
+					userInfo.calo_muc_tieu= Math.floor(caloStandard * e.target.value)
 					sessionStorage.setItem('userInfo',JSON.stringify(userInfo));
 					setCoefficient(e.target.value)
 				}}
@@ -64,7 +64,7 @@ function Following() {
 				/>
 			</RadioGroup>
 			<i>
-				Lượng calo bạn cần hàng hàng là: <b>{Math.floor(caloStandard * coefficient)}</b>
+				Lượng calo bạn cần hàng ngày là: <b>{Math.floor(caloStandard * coefficient)}</b>
 			</i>
 			<br/>
 			<Button

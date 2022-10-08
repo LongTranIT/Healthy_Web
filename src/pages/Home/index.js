@@ -498,8 +498,7 @@ function Home() {
 
 			<div className={cx("middle-content")}>
 				<h1>
-					Đạt được mục tiêu với Hướng Dẫn Chế Độ Ăn Kiêng Keto Cơ Bản
-					của chúng tôi
+					Hỗ trợ lên thực đơn và tập thể dục khoa học
 				</h1>
 				<div className={cx("section-youget__content_need")}>
 					<div className={cx("section-youget__side")}>
@@ -519,8 +518,7 @@ function Home() {
 								<div
 									className={cx("section-youget__list-text")}
 								>
-									Mô Tả Sơ Lược về Chế Độ Ăn Miễn Phí và Tức
-									Thì
+									Tính toán lượng calo cần thiết cho cơ thể
 								</div>
 							</li>
 							<li
@@ -538,7 +536,7 @@ function Home() {
 								<div
 									className={cx("section-youget__list-text")}
 								>
-									Chuẩn Bị Bữa Ăn Nhanh
+									Xem danh sách thực thẩm - Calo
 								</div>
 							</li>
 							<li
@@ -556,7 +554,7 @@ function Home() {
 								<div
 									className={cx("section-youget__list-text")}
 								>
-									Được Thiết Kế Riêng Cho Bạn
+									Lập thực đơn hằng ngày
 								</div>
 							</li>
 							<li
@@ -574,8 +572,7 @@ function Home() {
 								<div
 									className={cx("section-youget__list-text")}
 								>
-									Một Gói Đăng Ký Chi Phối Tất Cả Các Công
-									Thức Nấu Ăn
+									Tập thể dục theo hương dẫn
 								</div>
 							</li>
 							<li
@@ -593,7 +590,7 @@ function Home() {
 								<div
 									className={cx("section-youget__list-text")}
 								>
-									Hướng Dẫn Chi Tiết về Keto
+									Thống kê
 								</div>
 							</li>
 						</ul>
@@ -617,7 +614,7 @@ function Home() {
 										"text-highlight-color--design-color"
 									)}
 								>
-									Yourketo.diet
+									HealSci
 								</span>
 							</span>
 							<br />
@@ -632,7 +629,7 @@ function Home() {
 											"section-youget__list-text_sequence"
 										)}
 									>
-										Step-by-step video tutorials
+										Thông tin về calo cơ thể cần
 									</div>
 								</li>
 								<li className={cx("section-youget__list-item")}>
@@ -642,7 +639,7 @@ function Home() {
 											"section-youget__list-text_sequence"
 										)}
 									>
-										Công thức món ăn ngon và dễ nấu
+										Lập thực đơn phù hợp theo khoa học
 									</div>
 								</li>
 								<li className={cx("section-youget__list-item")}>
@@ -652,9 +649,7 @@ function Home() {
 											"section-youget__list-text_sequence"
 										)}
 									>
-										Danh sách các món đồ cần mua mỗi tuần có
-										thể in ra và bao quát tất cả các thành
-										phần
+										Tập thể dục khoa học
 									</div>
 								</li>
 							</ul>

@@ -49,7 +49,7 @@ function Menu() {
 								{exercise.bai_tap.map((item) => {
 									return (
 										<Grid item xs={4}>
-											<ExerciseCard title={item.ten} img={item.hinh} id={item['_id']}/>
+											<ExerciseCard title={item.ten} img={item.hinh} id={item['_id']} calo={item.calo}/>
 										</Grid>
 									);
 								})}

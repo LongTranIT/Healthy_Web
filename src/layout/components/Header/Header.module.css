@@ -18,8 +18,11 @@
 }
 
 .logo{
-	width: var(--logo-width);
+	width: 300px;
 	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .header-right{

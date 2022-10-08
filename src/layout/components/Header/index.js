@@ -121,6 +121,7 @@ function Header() {
 						}}
 					>
 						<Logo />
+						<h3>HealSci</h3>
 					</div>
 					<div className={cx("header-right")}>
 						{
@@ -170,14 +171,6 @@ function Header() {
 							</MenuItem>
 							<MenuItem
 								onClick={() => {
-									navigate("/statistic");
-									handleClose();
-								}}
-							>
-								Thống kê
-							</MenuItem>
-							<MenuItem
-								onClick={() => {
 									navigate("/menu");
 									handleClose();
 								}}
@@ -191,6 +184,14 @@ function Header() {
 								}}
 							>
 								Tập thể dục
+							</MenuItem>
+							<MenuItem
+								onClick={() => {
+									navigate("/statistic");
+									handleClose();
+								}}
+							>
+								Thống kê
 							</MenuItem>
 							<MenuItem
 								onClick={() => {

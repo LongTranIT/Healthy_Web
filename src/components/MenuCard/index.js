@@ -23,26 +23,37 @@ import styles from "./MenuCard.module.css";
 const menuService = new MenuService();
 const statisticService = new StatisticService();
 const cx = classNames.bind(styles);
-const userInfo= JSON.parse(sessionStorage.getItem('userInfo'))
+const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
 
 export default function MenuCard({ data, deleteAble, setReload }) {
 	const navigate = useNavigate();
-	const today=(new Date()).toDateString()
+	const today = new Date().toDateString();
 	const [open, setOpen] = useState(false);
+	const [openDelete, setOpenDelete] = useState(false);
 	const [dateSelected, setDateSelected] = useState(new Date(today));
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
-	const handleSubmit=()=>{
-		statisticService.addMenu({
-			ngay: dateSelected,
-			idThucDon: data['_id'],
-			idNguoiDung: userInfo['_id']
-		})
-		.then(result=>{
-			toast.success("Đã thêm thành công");
-			handleClose()
-		})
-	}
+	const handleOpenDelete = () => setOpenDelete(true);
+	const handleCloseDelete = () => setOpenDelete(false);
+	const handleSubmit = () => {
+		statisticService
+			.addMenu({
+				ngay: dateSelected,
+				idThucDon: data["_id"],
+				idNguoiDung: userInfo["_id"],
+			})
+			.then((result) => {
+				toast.success("Đã thêm thành công");
+				handleClose();
+			});
+	};
+	const handleDelete = () => {
+		menuService.delete(data["_id"]).then(() => {
+			toast.success("Đã xóa thành công");
+			setReload(true);
+		});
+		handleCloseDelete();
+	};
 
 	const modalStyle = {
 		position: "absolute",
@@ -59,6 +70,12 @@ export default function MenuCard({ data, deleteAble, setReload }) {
 		flexDirection: "column",
 		gap: 2,
 	};
+
+	const col_2={
+		display: "flex",
+		justifyContent:"end",
+		alignItem: "center",
+	}
 	return (
 		<>
 			<Modal
@@ -85,10 +102,43 @@ export default function MenuCard({ data, deleteAble, setReload }) {
 						startIcon={<LibraryAddIcon />}
 						variant={"contained"}
 						onClick={handleSubmit}
-						disabled={dateSelected===null}
+						disabled={dateSelected === null}
 					>
 						Xác nhận
 					</Button>
+				</Box>
+			</Modal>
+			<Modal
+				open={openDelete}
+				onClose={handleCloseDelete}
+				aria-labelledby="modal-modal-title"
+				aria-describedby="modal-modal-description"
+			>
+				<Box sx={modalStyle}>
+					<Typography
+						id="modal-modal-title"
+						variant="h6"
+						component="h2"
+					>
+						Bạn có chắc chắn muốn xóa thực đơn này không?
+					</Typography>
+
+					<Box  sx={col_2}>
+						<Button
+							size="small"
+							onClick={handleDelete}
+							startIcon={<HighlightOffIcon />}
+							color={"error"}
+						>
+							Xác nhận
+						</Button>
+						<Button
+							size="small"
+							onClick={handleCloseDelete}
+						>
+							Hủy
+						</Button>
+					</Box>
 				</Box>
 			</Modal>
 			<Card>
@@ -116,12 +166,7 @@ export default function MenuCard({ data, deleteAble, setReload }) {
 						<Button
 							size="small"
 							startIcon={<HighlightOffIcon />}
-							onClick={() => {
-								menuService.delete(data["_id"]).then(() => {
-									toast.success("Đã xóa thành công");
-									setReload(true);
-								});
-							}}
+							onClick={handleOpenDelete}
 							color={"error"}
 						>
 							Xóa

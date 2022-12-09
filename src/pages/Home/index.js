@@ -306,7 +306,7 @@ function Home() {
 						<h2
 							className={cx("text-highlight-color--design-color")}
 						>
-							Username
+							Tên tài khoản
 						</h2>
 						<input
 							className={cx("input")}
@@ -328,7 +328,7 @@ function Home() {
 						</h2>
 						<input
 							className={cx("input")}
-							placeholder="Mật khẩu"
+							placeholder="Password"
 							type={"password"}
 							value={account.password}
 							onChange={(e) => {
@@ -572,7 +572,7 @@ function Home() {
 								<div
 									className={cx("section-youget__list-text")}
 								>
-									Tập thể dục theo hương dẫn
+									Tập thể dục theo hướng dẫn
 								</div>
 							</li>
 							<li

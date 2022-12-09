@@ -110,13 +110,13 @@ function StatisticRange() {
 		labels,
 		datasets: [
 		  {
-			label: 'Cân nặng',
+			label: 'Cân nặng hiện tại',
 			data: statisticData.map(item=>item.can_nang?item.can_nang:userInfo.can_nang),
 			borderColor: 'rgb(53, 162, 235)',
 			backgroundColor: 'rgba(53, 162, 235, 0.5)'
 		  },
 		  {
-			label: 'Cân nặng',
+			label: 'Cân nặng mục tiêu',
 			data: statisticData.map(item=>userInfo.can_nang_muc_tieu),
 			borderColor: '#5eba7d',
 			backgroundColor: 'rgba(53, 162, 235, 0.5)',

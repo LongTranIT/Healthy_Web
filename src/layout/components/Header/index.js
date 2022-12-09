@@ -91,11 +91,11 @@ function Header() {
 						Đăng nhập
 					</Typography>
 					<div className={cx('title_input-group')}>
-						<span>Username</span>
+						<span>Tên tài khoản</span>
 						<input className={cx('title_input-input')} onChange={(e)=>setAccount({...account,username: e.target.value})}/>
 					</div>
 					<div className={cx('title_input-group')}>
-						<span>Password</span>
+						<span>Mật khẩu</span>
 						<input type={'password'} className={cx('title_input-input')} onChange={(e)=>setAccount({...account,password: e.target.value})}/>
 					</div>
 					<Button
@@ -141,7 +141,7 @@ function Header() {
 							sx={{ color: "white" }}
 							onClick={handleOpenModal}
 						>
-							Login
+							Đăng nhập
 						</Button>
 						}
 						<Menu
